@@ -1,0 +1,107 @@
+<nav
+  class="relative flex flex-wrap items-center justify-between px-2 py-3 bg-gradient-to-r from-primary to-primary-accent"
+>
+  <div class="container mx-auto flex flex-wrap items-center justify-between">
+    <div
+      class="w-full relative flex justify-between lg:w-auto px-4 lg:static lg:block lg:justify-start"
+    >
+      <a
+        class="flex gap-2 items-center text-base font-bold leading-relaxed mr-4 py-2 whitespace-nowrap uppercase text-white"
+        href="#pablo"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
+          ></path>
+        </svg>
+        Yakkita
+      </a>
+      <div class="flex gap-2 items-center lg:hidden">
+        <button
+          class="text-white cursor-pointer text-2xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent outline-none focus:outline-none"
+          type="button"
+          (click)="toggleNavbar()"
+        >
+          <i class="fa fa-regular fa-bars"></i>
+        </button>
+
+        <i class="text-white text-2xl fa fa-solid fa-cart-plus lg:hidden"></i>
+      </div>
+    </div>
+    <div
+      class="lg:flex lg:flex-grow items-center px-6 mx-auto"
+      [ngClass]="{ hidden: !showMenu, flex: showMenu }"
+    >
+      <ul class="flex flex-col lg:flex-row list-none ml-auto">
+        <li class="nav-item">
+          <a
+            class="px-3 py-2 flex items-center text-sm uppercase font-bold leading-snug text-white hover:opacity-75"
+            href="#pablo"
+          >
+            <span>Productos</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="px-3 py-2 flex items-center text-sm uppercase font-bold leading-snug text-white hover:opacity-75"
+            href="#pablo"
+          >
+            <span>Facturas</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <button
+            class="px-3 py-2 flex items-center text-sm uppercase font-bold leading-snug text-white hover:opacity-75"
+            type="button"
+            (mouseenter)="toggleTooltip()"
+            (mouseleave)="toggleTooltip()"
+            #btnDropdownRef
+          >
+            Perfil
+          </button>
+          <div class="z-50" style="min-width: 12rem" #popoverDropdownRef>
+            <div
+              class="bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg mt-1"
+              style="min-width: 12rem"
+              [ngClass]="dropdownPopoverShow ? 'block' : 'hidden'"
+            >
+              <a
+                href="#pablo"
+                class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+              >
+                Action
+              </a>
+              <a
+                href="#pablo"
+                class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+              >
+                Another action
+              </a>
+              <a
+                href="#pablo"
+                class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+              >
+                Something else here
+              </a>
+              <div
+                class="h-0 my-2 border border-solid border-t-0 border-blueGray-800 opacity-25"
+              ></div>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <div class="hidden lg:flex lg:items-center text-2xl">
+        <i class="text-white fa fa-solid fa-cart-plus"></i>
+      </div>
+    </div>
+  </div>
+</nav>

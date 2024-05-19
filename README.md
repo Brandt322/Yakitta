@@ -2,6 +2,11 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.10.
 
+## Environment settings
+
+1. Copy the file `src/environments/environment.prod.ts.example` to your own `src/environments/environment.prod.ts`
+2. Replace 'YOUR_API_KEY_HERE' and other environment variables with your own values.
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.

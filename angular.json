@@ -25,12 +25,23 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/font-awesome/css/font-awesome.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "fileReplacements": [{
+              "replace": "src/environments/environment.dev.ts",
+              "with": "src/environments/environment.dev.ts"
+            }]
           },
           "configurations": {
             "production": {
+              "fileReplacements": [
+                {
+                "replace": "src/environments/environment.dev.ts",
+                "with": "src/environments/environment.prod.ts"
+                }
+              ],
               "budgets": [
                 {
                   "type": "initial",

@@ -1,0 +1,85 @@
+<div class="grid lg:grid-cols-2">
+  <div class="flex items-center mx-auto h-screen">
+    <form class="grid gap-6 grid-cols-1 w-96 sm:w-[500px] px-2">
+      <div>
+        <img
+          src="../../../assets/fractal-typo.png"
+          alt="fractal-logo"
+          class="mb-8"
+        />
+        <p class="font-medium text-xl">Inicio de sesión</p>
+      </div>
+      <div>
+        <label
+          for="username"
+          class="font-medium block mb-2 text-gray-900 dark:text-white"
+        >
+          Usuario
+        </label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-4 focus:ring-gray-200 focus:border-gray-300 block w-full p-2.5"
+          placeholder="Nombre de usuario"
+          autocomplete="on"
+          formControlName="username"
+        />
+        <div class="grid gap-2 leading-tight mt-1">
+          <span class="font-medium text-red-500 leading-tight">
+            El campo de username es requerido.
+          </span>
+          <span class="font-medium text-orange-500 leading-tight">
+            El formato de email es incorrecto.
+          </span>
+        </div>
+      </div>
+
+      <div class="">
+        <label
+          for="password"
+          class="font-medium block mb-2 text-gray-900 dark:text-white"
+        >
+          Contraseña
+        </label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-4 focus:ring-gray-200 focus:border-gray-300 block w-full p-2.5"
+          placeholder="Contraseña"
+          formControlName="password"
+        />
+        <div class="grid gap-2 leading-tight mt-1">
+          <span class="font-medium text-red-500 leading-tight">
+            El campo de password es requerido.
+          </span>
+          <span class="font-medium text-red-500 leading-tight">
+            Debes ingresar al menos un digito.
+          </span>
+        </div>
+      </div>
+
+      <div class="">
+        <a href="" class="text-[#0A84C2] font-medium hover:underline"
+          >Olvidé mi contraseña</a
+        >
+      </div>
+      <button
+        type="submit"
+        class="focus:outline-none text-white bg-[#009688] hover:bg-[#058075] focus:ring-4 focus:ring-[#90ffe9] font-medium rounded-lg text-sm px-5 py-2.5"
+      >
+        Iniciar sesión
+      </button>
+    </form>
+  </div>
+  <div class="h-screen bg-[#F5F6F5] hidden lg:block">
+    <div class="flex justify-center items-center mx-auto h-full">
+      <img
+        src="../../../assets/login-image.png"
+        alt="image"
+        class="w-[300px] lg:w-[500px]"
+      />
+    </div>
+  </div>
+</div>
