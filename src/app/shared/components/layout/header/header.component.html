@@ -9,21 +9,12 @@
         class="flex gap-2 items-center text-base font-bold leading-relaxed mr-4 py-2 whitespace-nowrap uppercase text-white"
         href="#pablo"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full"
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
-          ></path>
-        </svg>
-        Yakkita
+        <img
+          src="../../../assets/yaktta_imgs/yakkta_logo.webp"
+          alt="fractal-logo"
+          class="w-8"
+        />
+        Yaktta
       </a>
       <div class="flex gap-2 items-center lg:hidden">
         <button
@@ -34,7 +25,11 @@
           <i class="fa fa-regular fa-bars"></i>
         </button>
 
-        <i class="text-white text-2xl fa fa-solid fa-cart-plus lg:hidden"></i>
+        <i
+          class="text-white text-2xl fa fa-solid fa-cart-plus lg:hidden cursor-pointer"
+          (click)="toggleCartDropdown()"
+          #btnCartDropdownRef
+        ></i>
       </div>
     </div>
     <div
@@ -60,17 +55,22 @@
         </li>
         <li class="nav-item">
           <button
-            class="px-3 py-2 flex items-center text-sm uppercase font-bold leading-snug text-white hover:opacity-75"
+            class="px-3 py-2 flex items-center text-sm uppercase font-bold leading-snug text-white hover:opacity-75 transition-all duration-200 ease-in-out"
             type="button"
             (mouseenter)="toggleTooltip()"
-            (mouseleave)="toggleTooltip()"
+            (mouseleave)="mouseLeaveButton($event)"
             #btnDropdownRef
           >
             Perfil
           </button>
-          <div class="z-50" style="min-width: 12rem" #popoverDropdownRef>
+          <div
+            class="z-50"
+            style="min-width: 12rem"
+            #popoverDropdownRef
+            (mouseleave)="toggleTooltip()"
+          >
             <div
-              class="bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg mt-1"
+              class="bg-white text-base z-50 py-2 list-none text-left rounded shadow-lg mt-1"
               style="min-width: 12rem"
               [ngClass]="dropdownPopoverShow ? 'block' : 'hidden'"
             >
@@ -78,30 +78,64 @@
                 href="#pablo"
                 class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
               >
-                Action
+                Cambiar contraseña
               </a>
               <a
                 href="#pablo"
                 class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
               >
-                Another action
+                Compras del dia
               </a>
               <a
                 href="#pablo"
                 class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
               >
-                Something else here
+                Salir
               </a>
-              <div
-                class="h-0 my-2 border border-solid border-t-0 border-blueGray-800 opacity-25"
-              ></div>
             </div>
           </div>
         </li>
       </ul>
       <div class="hidden lg:flex lg:items-center text-2xl">
-        <i class="text-white fa fa-solid fa-cart-plus"></i>
+        <i
+          class="text-white cursor-pointer fa fa-solid fa-cart-plus"
+          (click)="toggleCartDropdown()"
+          #btnCartDropdownRef
+        ></i>
       </div>
     </div>
   </div>
 </nav>
+<div class="z-50 cart-dropdown" #popoverCartDropdownRef>
+  <div
+    class="bg-white text-base z-50 py-2 list-none text-left rounded shadow-lg mt-1"
+    style="min-width: 12rem"
+    [ngClass]="cartDropdownShow ? 'block' : 'hidden'"
+  >
+    <div class="flex justify-between items-center px-4">
+      <h3
+        class="text-2xl py-2 font-bold block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+      >
+        Carrito
+      </h3>
+      <i
+        class="fa far fa-times p-1 hover:text-slate-200 hover:bg-primary-accent hover:rounded-full cursor-pointer transition-all duration-200 ease-in-out"
+        (click)="toggleCartDropdown()"
+      ></i>
+    </div>
+    <!-- Aquí puedes agregar tus productos -->
+    <a
+      href="#pablo"
+      class="text-sm py-2 px-6 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+    >
+      Producto 1
+    </a>
+    <a
+      href="#pablo"
+      class="text-sm py-2 px-6 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+    >
+      Producto 2
+    </a>
+    <!-- Agrega más productos como este -->
+  </div>
+</div>

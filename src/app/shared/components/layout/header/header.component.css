@@ -1,0 +1,17 @@
+.cart-dropdown {
+  min-width: 25rem;
+  position: absolute;
+  right: 0;
+}
+
+@media (max-width: 768px) {
+  .cart-dropdown {
+    min-width: 15rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .cart-dropdown {
+    min-width: 10rem;
+  }
+}
