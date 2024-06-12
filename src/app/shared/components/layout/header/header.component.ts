@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ElementRef, ViewChild, HostListener } from '@angular/core';
+import { Router } from '@angular/router';
 import { createPopper } from '@popperjs/core';
 
 @Component({
@@ -18,7 +19,7 @@ export class HeaderComponent implements AfterViewInit {
   @ViewChild('popoverDropdownRef', { static: false }) popoverDropdownRef!: ElementRef;
   @ViewChild('cartDropdownRef', { static: false }) cartDropdownRef!: ElementRef;
 
-  constructor(private eRef: ElementRef) { }
+  constructor(private eRef: ElementRef, private router: Router) { }
 
   ngAfterViewInit(): void {
     createPopper(this.btnDropdownRef.nativeElement, this.popoverDropdownRef.nativeElement, {
@@ -54,4 +55,15 @@ export class HeaderComponent implements AfterViewInit {
     }
   }
 
+  onButtonClickProducts() {
+    this.router.navigate(['/main']);
+  }
+
+  onButtonClickFacturas() {
+    this.router.navigate(['/main/facturas']);
+  }
+
+  onButtonClickDashboard() {
+    this.router.navigate(['/main/dashboard']);
+  }
 }

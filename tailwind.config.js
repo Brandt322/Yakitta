@@ -25,7 +25,10 @@ module.exports = {
           "-ms-overflow-style": "none" /* Internet Explorer 10+ */,
         },
         ".scrollbar-hide::-webkit-scrollbar": {
-          display: "none" /* Safari and Chrome */,
+          display: "none", // Chrome and Safari
+        },
+        ".scrollbar-hide::-webkit-scrollbar-button": {
+          display: "none", // Chrome and Safari
         },
         ".scrollbar-thin": {
           "scrollbar-width": "thin" /* Firefox */,
@@ -35,7 +38,7 @@ module.exports = {
           width: "10px" /* Safari and Chrome */,
         },
         ".scrollbar-thumb-orange": {
-          "scrollbar-color": "#626065 #f1f1f1" /* Firefox */,
+          "scrollbar-color": "#fff" /* Firefox */,
         },
         ".scrollbar-thumb-orange::-webkit-scrollbar-thumb": {
           background: "#626065" /* Safari and Chrome */,
@@ -43,6 +46,7 @@ module.exports = {
       };
 
       addUtilities(newUtilities);
-    },],
+    },
+  ],
 }
 
