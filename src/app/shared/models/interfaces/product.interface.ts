@@ -9,7 +9,7 @@ export interface Product {
   discount: number;
   image: string;
   product_type: string;
-  id_brands: Brand[];
+  id_brands: Brand;
 }
 
 export interface ProductRequest {
@@ -20,7 +20,7 @@ export interface ProductRequest {
   discount: number;
   product_type: string;
   image: string;
-  id_brands: Brand[];
+  id_brands: Brand;
 }
 
 export interface ProductResponse {
@@ -32,5 +32,5 @@ export interface ProductResponse {
   discount: number;
   image: string;
   product_type: string;
-  id_brands: Brand[];
+  id_brands: Brand;
 }

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ProductListComponent } from './product/product-list/product-list.component';
 import { FacturasListComponent } from './facturas/facturas-list/facturas-list.component';
 import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -13,7 +14,8 @@ import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
     DashboardComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    ReactiveFormsModule
   ],
   exports: [
     ProductListComponent,

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { PRODUCT_API_ENDPOINTS } from 'src/app/core/global/constants/api-endpoints';
-import { ProductResponse } from 'src/app/shared/models/interfaces/product.interface';
+import { ProductRequest, ProductResponse } from 'src/app/shared/models/interfaces/product.interface';
 import { environment } from 'src/environments/environment.dev';
 
 @Injectable({
@@ -24,7 +24,7 @@ export class ProductService {
     return imagePrefix + image;
   }
 
-  private handleTalentData(product: ProductResponse) {
+  private handleProductData(product: ProductResponse) {
     if (product.image) {
       product.image = this.handleImage(product.image);
     }
@@ -33,7 +33,13 @@ export class ProductService {
 
   getProduct(): Observable<ProductResponse[]> {
     return this.http.get<ProductResponse[]>(`${this.uri}/${PRODUCT_API_ENDPOINTS.GET_ALL}`).pipe(
-      map((products: ProductResponse[]) => products.map(product => this.handleTalentData(product)))
+      map((products: ProductResponse[]) => products.map(product => this.handleProductData(product)))
+    );
+  }
+
+  createProduct(product: ProductRequest): Observable<ProductResponse> {
+    return this.http.post<ProductResponse>(`${this.uri}/${PRODUCT_API_ENDPOINTS.CREATE}`, product).pipe(
+      map((newProduct: ProductResponse) => this.handleProductData(newProduct))
     );
   }
 }
