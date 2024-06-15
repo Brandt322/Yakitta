@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
 import { ProductRequest, ProductResponse } from '../../models/interfaces/product.interface';
 import { ProductService } from 'src/app/services/product/product.service';
 
@@ -24,6 +24,10 @@ export class ProductStateServiceService {
       tap((newProduct: ProductResponse) => {
         const currentProducts = this.productsSubject.getValue();
         this.productsSubject.next([...currentProducts, newProduct]);
+      }),
+      catchError(error => {
+        // console.error('Error:', error);
+        return throwError(error);
       })
     );
   }

@@ -1,10 +1,10 @@
 <div
-  class="container px-5 pt-4 lg:pt-24 mx-auto flex flex-wrap items-start justify-between max-w-screen-2xl md:max-h-screen"
+  class="container px-5 py-4 lg:pt-24 mx-auto flex gap-4 flex-wrap items-start justify-between max-w-screen-2xl"
 >
   <form
     [formGroup]="productForm"
     (ngSubmit)="onSubmit()"
-    class="lg:w-2/6 md:w-1/2 max-h-[720px] overflow-y-auto bg-gray-100 rounded-lg p-8 flex flex-col md:mr-auto w-full mb-4 md:mb-0 scroll-smooth scrollbar-thin scrollbar-thumb-orange"
+    class="lg:w-2/6 max-h-[720px] overflow-y-auto bg-gray-100 rounded-lg p-8 flex flex-col w-full mb-4 md:mb-0 scroll-smooth scrollbar-thin scrollbar-thumb-orange"
   >
     <h2 class="text-gray-900 text-lg font-medium title-font mb-5">
       Crear un producto
@@ -219,8 +219,9 @@
         class="w-full bg-white rounded border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
       >
         <option value="" selected>Selecciona la marca del producto</option>
-        <option value="1">Red Label</option>
-        <option value="2">Ruskaya</option>
+        <option *ngFor="let brand of brands" [value]="brand.id">
+          {{ brand.brandName }}
+        </option>
       </select>
       <div
         class="grid gap-2 leading-tight mt-1"
@@ -249,7 +250,7 @@
     </p>
   </form>
   <div
-    class="relative w-full lg:w-3/5 max-h-[720px] md:w-1/2 overflow-auto mb-2 md:mb-0 scroll-smooth scrollbar-thin scrollbar-thumb-orange"
+    class="relative w-full lg:w-3/5 max-h-[720px] overflow-auto mb-2 md:mb-0 scroll-smooth scrollbar-thin scrollbar-thumb-orange"
   >
     <table
       class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"

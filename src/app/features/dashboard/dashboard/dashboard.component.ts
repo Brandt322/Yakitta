@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, throwError } from 'rxjs';
+import { BrandService } from 'src/app/services/brand/brand.service';
 import { ProductService } from 'src/app/services/product/product.service';
 import { ProductStateServiceService } from 'src/app/shared/components/services/product-state-service.service';
 import { CustomValidators } from 'src/app/shared/components/utils/Validations/CustomValidators';
+import { BrandResponse } from 'src/app/shared/models/interfaces/brand.interface';
 import { ProductResponse } from 'src/app/shared/models/interfaces/product.interface';
 
 @Component({
@@ -15,6 +17,7 @@ import { ProductResponse } from 'src/app/shared/models/interfaces/product.interf
 export class DashboardComponent implements OnInit {
 
   products: ProductResponse[] = [];
+  brands: BrandResponse[] = [];
   productForm!: FormGroup;
   imageFile?: File;
 
@@ -22,10 +25,12 @@ export class DashboardComponent implements OnInit {
     private productStateService: ProductStateServiceService,
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
+    private brandService: BrandService
   ) { }
 
   ngOnInit(): void {
     this.getProducts();
+    this.getBrands();
     this.myform();
   }
 
@@ -41,6 +46,12 @@ export class DashboardComponent implements OnInit {
       ).subscribe((products: ProductResponse[]) => {
         this.products = products;
       });
+  }
+
+  getBrands() {
+    this.brandService.getBrands().subscribe((brands: BrandResponse[]) => {
+      this.brands = brands;
+    })
   }
 
   myform() {
@@ -76,6 +87,10 @@ export class DashboardComponent implements OnInit {
           (response) => {
             this.toastr.success('Producto creado correctamente', 'Éxito');
             this.productForm.reset();
+            const brandControl = this.productForm.get('id_brands');
+            if (brandControl) {
+              brandControl.setValue('');
+            }
             this.imageFile = undefined;
           },
           (error) => {
