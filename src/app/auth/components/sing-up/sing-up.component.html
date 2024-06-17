@@ -1,1 +1,232 @@
-<p>sing-up works!</p>
+<div class="grid lg:grid-cols-2">
+  <div class="flex items-center mx-auto h-screen">
+    <form
+      [formGroup]="registerForm"
+      class="grid gap-5 grid-cols-1 w-96 sm:w-[500px] px-2"
+    >
+      <div>
+        <img
+          src="../../../assets/yaktta_imgs/yakkta_logo.webp"
+          alt="fractal-logo"
+          class="mb-4"
+        />
+        <p class="font-medium text-xl">Registro</p>
+      </div>
+      <div>
+        <label for="firstname" class="font-medium block mb-2 text-gray-900">
+          Nombre <span class="text-slate-700">(s)</span>
+        </label>
+        <input
+          type="text"
+          id="firstname"
+          name="firstname"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-4 focus:ring-gray-200 focus:border-gray-300 block w-full p-2.5"
+          placeholder="Ingresa tus nombres"
+          autocomplete="on"
+          formControlName="firstname"
+        />
+        <div
+          class="grid gap-2 leading-tight mt-1"
+          *ngIf="
+            registerForm.get('firstname')?.touched &&
+            registerForm.get('firstname')?.errors
+          "
+        >
+          <span
+            class="font-medium text-red-500 leading-tight"
+            *ngIf="registerForm.get('firstname')?.errors?.['required']"
+          >
+            El campo de nombres es requerido.
+          </span>
+          <span
+            class="font-medium text-red-500 leading-tight"
+            *ngIf="registerForm.get('firstname')?.errors?.['minLength']"
+          >
+            Debes ingresar al menos 2 digitos.
+          </span>
+          <span
+            class="font-medium text-red-500 leading-tight"
+            *ngIf="registerForm.get('firstname')?.errors?.['stringType']"
+          >
+            No debes ingresar numeros o simbolos.
+          </span>
+        </div>
+      </div>
+      <div>
+        <label for="lastname" class="font-medium block mb-2 text-gray-900">
+          Apellido <span class="text-slate-700">(s)</span>
+        </label>
+        <input
+          type="text"
+          id="lastname"
+          name="lastname"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-4 focus:ring-gray-200 focus:border-gray-300 block w-full p-2.5"
+          placeholder="Ingresa tus apellidos"
+          autocomplete="on"
+          formControlName="lastname"
+        />
+        <div
+          class="grid gap-2 leading-tight mt-1"
+          *ngIf="
+            registerForm.get('lastname')?.touched &&
+            registerForm.get('lastname')?.errors
+          "
+        >
+          <span
+            class="font-medium text-red-500 leading-tight"
+            *ngIf="registerForm.get('lastname')?.errors?.['required']"
+          >
+            El campo de apellidos es requerido.
+          </span>
+          <span
+            class="font-medium text-red-500 leading-tight"
+            *ngIf="registerForm.get('lastname')?.errors?.['minLength']"
+          >
+            Debes ingresar al menos 2 digitos.
+          </span>
+          <span
+            class="font-medium text-red-500 leading-tight"
+            *ngIf="registerForm.get('lastname')?.errors?.['stringType']"
+          >
+            No debes ingresar numeros o simbolos.
+          </span>
+        </div>
+      </div>
+      <div>
+        <label for="city" class="font-medium block mb-2 text-gray-900">
+          Ciudad
+        </label>
+        <input
+          type="text"
+          id="city"
+          name="city"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-4 focus:ring-gray-200 focus:border-gray-300 block w-full p-2.5"
+          placeholder="Ciudad"
+          autocomplete="on"
+          formControlName="city"
+        />
+        <div
+          class="grid gap-2 leading-tight mt-1"
+          *ngIf="
+            registerForm.get('city')?.touched &&
+            registerForm.get('city')?.errors
+          "
+        >
+          <span
+            class="font-medium text-red-500 leading-tight"
+            *ngIf="registerForm.get('city')?.errors?.['required']"
+          >
+            El campo de ciudad es requerido.
+          </span>
+          <span
+            class="font-medium text-red-500 leading-tight"
+            *ngIf="registerForm.get('city')?.errors?.['minLength']"
+          >
+            Debes ingresar al menos 2 digitos.
+          </span>
+          <span
+            class="font-medium text-red-500 leading-tight"
+            *ngIf="registerForm.get('city')?.errors?.['stringType']"
+          >
+            No debes ingresar numeros o simbolos.
+          </span>
+        </div>
+      </div>
+      <div>
+        <label for="username" class="font-medium block mb-2 text-gray-900">
+          Correo electrónico
+        </label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-4 focus:ring-gray-200 focus:border-gray-300 block w-full p-2.5"
+          placeholder="Ingresa tu correo electrónico"
+          autocomplete="on"
+          formControlName="username"
+        />
+        <div
+          class="grid gap-2 leading-tight mt-1"
+          *ngIf="
+            registerForm.get('username')?.touched &&
+            registerForm.get('username')?.errors
+          "
+        >
+          <span
+            class="font-medium text-red-500 leading-tight"
+            *ngIf="registerForm.get('username')?.errors?.['required']"
+          >
+            El campo de username es requerido.
+          </span>
+          <span
+            class="font-medium text-orange-500 leading-tight"
+            *ngIf="registerForm.get('username')?.errors?.['email']"
+          >
+            El formato de email es incorrecto.
+          </span>
+        </div>
+      </div>
+
+      <div class="">
+        <label for="password" class="font-medium block mb-2 text-gray-900">
+          Contraseña
+        </label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-4 focus:ring-gray-200 focus:border-gray-300 block w-full p-2.5"
+          placeholder="Contraseña"
+          formControlName="password"
+        />
+        <div
+          class="grid gap-2 leading-tight mt-1"
+          *ngIf="
+            registerForm.get('password')?.touched &&
+            registerForm.get('password')?.errors
+          "
+        >
+          <span
+            class="font-medium text-red-500 leading-tight"
+            *ngIf="registerForm.get('password')?.errors?.['required']"
+          >
+            El campo de password es requerido.
+          </span>
+          <span
+            class="font-medium text-red-500 leading-tight"
+            *ngIf="registerForm.get('password')?.errors?.['minLength']"
+          >
+            Debes ingresar al menos un digito.
+          </span>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <a class="text-[#0A84C2] font-medium hover:underline"
+          >Olvidé mi contraseña</a
+        >
+        <a
+          [routerLink]="['/']"
+          class="text-[#0A84C2] font-medium hover:underline"
+          >Ya tengo un cuenta? Iniciar sesión</a
+        >
+      </div>
+      <button
+        type="submit"
+        class="focus:outline-none text-white bg-[#009688] hover:bg-[#058075] focus:ring-4 focus:ring-[#90ffe9] font-medium rounded-lg text-sm px-5 py-2.5"
+        (click)="onSubmit()"
+      >
+        Registrarme
+      </button>
+    </form>
+  </div>
+  <div class="h-screen bg-[#F5F6F5] hidden lg:block">
+    <div class="flex justify-center items-center mx-auto h-full">
+      <img
+        src="../../../assets/yaktta_imgs/portada.jpg"
+        alt="image"
+        class="w-[300px] lg:w-[500px]"
+      />
+    </div>
+  </div>
+</div>

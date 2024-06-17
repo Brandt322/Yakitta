@@ -1,0 +1,766 @@
+<div
+  class="container px-5 py-4 lg:pt-18 mx-auto flex flex-col gap-2 justify-center max-w-screen-2xl"
+>
+  <ul
+    class="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b w-fit border-gray-200 dark:border-gray-700 dark:text-gray-400"
+  >
+    <li class="me-2">
+      <a
+        (click)="selectView('products')"
+        [class.active]="selectedView === 'products'"
+        class="inline-block p-4 text-blue-600 bg-gray-100 rounded-t-lg hover:bg-gray-700 cursor-pointer dark:hover:text-gray-300"
+        [ngClass]="{
+          'dark:bg-gray-800 dark:text-blue-500': selectedView === 'products'
+        }"
+        >Productos</a
+      >
+    </li>
+    <li class="me-2">
+      <a
+        (click)="selectView('brands')"
+        [class.active]="selectedView === 'brands'"
+        class="inline-block p-4 text-blue-600 bg-gray-100 rounded-t-lg hover:text-gray-600 hover:bg-gray-700 cursor-pointer dark:hover:text-gray-300"
+        [ngClass]="{
+          'dark:bg-gray-800 dark:text-blue-500': selectedView === 'brands'
+        }"
+        >Marcas</a
+      >
+    </li>
+  </ul>
+
+  <div
+    class="flex gap-4 flex-wrap items-start justify-between"
+    *ngIf="selectedView === 'products'"
+  >
+    <form
+      [formGroup]="edditProductForm"
+      (ngSubmit)="onSubmit()"
+      class="lg:w-2/6 max-h-[720px] overflow-y-auto bg-gray-100 rounded-lg p-8 flex flex-col w-full mb-4 md:mb-0 scroll-smooth scrollbar-thin scrollbar-thumb-orange"
+    >
+      <h2 class="text-gray-900 text-lg font-medium title-font mb-5">
+        Crear un producto
+      </h2>
+      <div class="relative mb-4">
+        <label for="nombre" class="leading-7 text-sm text-gray-600"
+          >Nombre</label
+        >
+        <input
+          type="text"
+          id="nombre"
+          formControlName="name"
+          class="w-full bg-white rounded border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+        />
+        <div
+          class="grid gap-2 leading-tight mt-1"
+          *ngIf="
+            productForm.get('name')?.touched && productForm.get('name')?.errors
+          "
+        >
+          <span
+            class="font-medium text-red-500 leading-tight"
+            *ngIf="productForm.get('name')?.errors?.['required']"
+          >
+            El campo de nombre es requerido.
+          </span>
+          <span
+            class="font-medium text-orange-500 leading-tight"
+            *ngIf="productForm.get('name')?.errors?.['minLength']"
+          >
+            Minimo 3 caracteres.
+          </span>
+        </div>
+      </div>
+      <div class="relative mb-4">
+        <label for="descripcion" class="leading-7 text-sm text-gray-600">
+          Descripción
+        </label>
+        <input
+          type="text"
+          id="descripcion"
+          formControlName="description"
+          class="w-full bg-white rounded border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+        />
+        <div
+          class="grid gap-2 leading-tight mt-1"
+          *ngIf="
+            productForm.get('description')?.touched &&
+            productForm.get('description')?.errors
+          "
+        >
+          <span
+            class="font-medium text-red-500 leading-tight"
+            *ngIf="productForm.get('description')?.errors?.['required']"
+          >
+            El campo de descripcion es requerido.
+          </span>
+          <span
+            class="font-medium text-orange-500 leading-tight"
+            *ngIf="productForm.get('description')?.errors?.['minLength']"
+          >
+            Minimo 3 caracteres.
+          </span>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <div class="relative mb-4 w-1/2">
+          <label for="stock" class="leading-7 text-sm text-gray-600"
+            >Stock</label
+          >
+          <input
+            type="text"
+            id="stock"
+            formControlName="stock"
+            class="w-full bg-white rounded border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+          />
+        </div>
+        <div class="relative mb-4 w-1/2">
+          <label for="precio" class="leading-7 text-sm text-gray-600">
+            Precio en Soles
+          </label>
+          <input
+            type="text"
+            id="precio"
+            formControlName="price"
+            class="w-full bg-white rounded border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+          />
+        </div>
+      </div>
+      <div class="grid">
+        <div
+          class="grid gap-2 leading-tight"
+          *ngIf="
+            productForm.get('stock')?.touched &&
+            productForm.get('stock')?.errors
+          "
+        >
+          <span
+            class="font-medium text-red-500 leading-tight"
+            *ngIf="productForm.get('stock')?.errors?.['required']"
+          >
+            El campo de stock es requerido.
+          </span>
+          <span
+            class="font-medium text-orange-500 leading-tight"
+            *ngIf="productForm.get('stock')?.errors?.['numericType']"
+          >
+            Debes ingresar un valor numerico para el stock.
+          </span>
+        </div>
+        <div
+          class="grid gap-2 leading-tight"
+          *ngIf="
+            productForm.get('price')?.touched &&
+            productForm.get('price')?.errors
+          "
+        >
+          <span
+            class="font-medium text-red-500 leading-tight"
+            *ngIf="productForm.get('price')?.errors?.['required']"
+          >
+            El campo de precio es requerido.
+          </span>
+          <span
+            class="font-medium text-orange-500 leading-tight"
+            *ngIf="productForm.get('price')?.errors?.['numericDecimalType']"
+          >
+            Debes ingresar un valor numerico para el precio.
+          </span>
+        </div>
+      </div>
+      <div class="relative mb-4">
+        <label for="descuento" class="leading-7 text-sm text-gray-600">
+          Descuento <span class="text-xs text-gray-500">(opcional)</span>
+        </label>
+        <input
+          type="text"
+          id="descuento"
+          formControlName="discount"
+          class="w-full bg-white rounded border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+        />
+        <div
+          class="grid gap-2 leading-tight mt-1"
+          *ngIf="
+            productForm.get('discount')?.touched &&
+            productForm.get('discount')?.errors
+          "
+        >
+          <span
+            class="font-medium text-orange-500 leading-tight"
+            *ngIf="productForm.get('discount')?.errors?.['numericDecimalType']"
+          >
+            Debes ingresar un valor numerico para el descuento.
+          </span>
+        </div>
+      </div>
+      <div class="relative mb-4">
+        <label for="tipo_producto" class="leading-7 text-sm text-gray-600">
+          Tipo de producto
+        </label>
+        <input
+          type="text"
+          id="tipo_producto"
+          formControlName="product_type"
+          class="w-full bg-white rounded border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+        />
+        <div
+          class="grid gap-2 leading-tight mt-1"
+          *ngIf="
+            productForm.get('product_type')?.touched &&
+            productForm.get('product_type')?.errors
+          "
+        >
+          <span
+            class="font-medium text-red-500 leading-tight"
+            *ngIf="productForm.get('product_type')?.errors?.['required']"
+          >
+            El campo de tipo de producto es requerido.
+          </span>
+        </div>
+      </div>
+      <div class="relative mb-4">
+        <label for="imagen" class="leading-7 text-sm text-gray-600">
+          Imagen del producto
+        </label>
+        <input
+          type="file"
+          id="imagen"
+          formControlName="image"
+          (change)="onImageUpload($event)"
+          class="w-full bg-white rounded border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+        />
+        <div
+          class="grid gap-2 leading-tight mt-1"
+          *ngIf="
+            productForm.get('image')?.touched &&
+            productForm.get('image')?.errors
+          "
+        >
+          <span
+            class="font-medium text-red-500 leading-tight"
+            *ngIf="productForm.get('image')?.errors?.['required']"
+          >
+            La imagen es requerida.
+          </span>
+          <span
+            class="font-medium text-red-500 leading-tight"
+            *ngIf="productForm.get('image')?.errors?.['fileSizeValidator']"
+          >
+            La imagen no debe pesar mas de 10MB.
+          </span>
+        </div>
+      </div>
+      <div class="relative mb-4">
+        <label for="marca" class="leading-7 text-sm text-gray-600">Marca</label>
+        <select
+          id="marca"
+          formControlName="id_brands"
+          class="w-full bg-white rounded border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+        >
+          <option value="" selected>Selecciona la marca del producto</option>
+          <option *ngFor="let brand of brands" [value]="brand.id">
+            {{ brand.brandName }}
+          </option>
+        </select>
+        <div
+          class="grid gap-2 leading-tight mt-1"
+          *ngIf="
+            productForm.get('id_brands')?.touched &&
+            productForm.get('id_brands')?.errors
+          "
+        >
+          <span
+            class="font-medium text-red-500 leading-tight"
+            *ngIf="productForm.get('id_brands')?.errors?.['required']"
+          >
+            El campo de la marca es requerido.
+          </span>
+        </div>
+      </div>
+      <button
+        type="submit"
+        class="text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded text-lg"
+      >
+        Agregar
+      </button>
+      <p class="text-xs text-gray-500 mt-3">
+        Los productos que lleguen a un stock de 0 se deshabilitaran
+        automáticamente.
+      </p>
+    </form>
+    <div
+      class="relative w-full lg:w-3/5 max-h-[720px] overflow-auto mb-2 md:mb-0 scroll-smooth scrollbar-thin scrollbar-thumb-orange"
+    >
+      <table
+        class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+      >
+        <thead
+          class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+        >
+          <tr>
+            <th scope="col" class="px-3 py-3">Imagen</th>
+            <th scope="col" class="px-3 py-3">Nombre del producto</th>
+            <th scope="col" class="px-3 py-3">Descripción</th>
+            <th scope="col" class="px-3 py-3">Stock</th>
+            <th scope="col" class="px-3 py-3">Precio (Soles)</th>
+            <th scope="col" class="px-3 py-3">Descuento</th>
+            <th scope="col" class="px-3 py-3">Tipo de producto</th>
+            <th scope="col" class="px-3 py-3">Marca</th>
+            <th scope="col" class="px-3 py-3">Opciones</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="products.length > 0; else noProducts">
+          <tr
+            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+            *ngFor="let product of products"
+          >
+            <th
+              scope="row"
+              class="px-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+            >
+              <img
+                class="w-12 h-12 rounded-full object-cover object-center"
+                src="{{ product.image }}"
+              />
+            </th>
+            <td class="px-3 py-4">{{ product.name }}</td>
+            <td class="px-3 py-4">{{ product.description }}</td>
+            <td class="px-3 py-4">{{ product.stock || 0 }}</td>
+            <td class="px-3 py-4">{{ product.price || 0 }}</td>
+            <td class="px-3 py-4">{{ product.discount || 0 }}</td>
+            <td class="px-3 py-4">{{ product.product_type }}</td>
+            <td class="px-3 py-4">{{ product.id_brands.brandName }}</td>
+            <td class="px-3 py-4">
+              <form class="flex gap-2 items-center">
+                <button
+                  id="editProduct"
+                  type="button"
+                  (click)="openModal(product.id)"
+                  class="text-white bg-green-500 border-0 py-1 px-2 focus:outline-none hover:bg-green-600 rounded text-lg"
+                >
+                  Editar
+                </button>
+                <button
+                  type="submit"
+                  (click)="deleteProduct(product.id)"
+                  class="text-white bg-red-500 border-0 py-1 px-2 focus:outline-none hover:bg-red-600 rounded text-lg"
+                >
+                  Eliminar
+                </button>
+              </form>
+            </td>
+          </tr>
+        </tbody>
+        <ng-template #noProducts>
+          <tbody>
+            <tr>
+              <td colspan="9" class="text-center py-8 text-gray-500">
+                <img
+                  src="../../../../assets/yaktta_imgs/no-data-found.webp"
+                  alt="Logo"
+                  class="mx-auto w-24 h-24"
+                />
+                Aún no existen productos que administrar.
+              </td>
+            </tr>
+          </tbody>
+        </ng-template>
+      </table>
+    </div>
+  </div>
+  <div
+    class="flex gap-4 flex-wrap items-start justify-between"
+    *ngIf="selectedView === 'brands'"
+  >
+    <form
+      [formGroup]="brandForm"
+      (ngSubmit)="OnSubmitBrand()"
+      class="lg:w-2/6 max-h-[720px] overflow-y-auto bg-gray-100 rounded-lg p-8 flex flex-col w-full mb-4 md:mb-0 scroll-smooth scrollbar-thin scrollbar-thumb-orange"
+    >
+      <h2 class="text-gray-900 text-lg font-medium title-font mb-5">
+        Agregar una marca
+      </h2>
+      <div class="relative mb-4">
+        <label for="brand_name_input" class="leading-7 text-sm text-gray-600"
+          >Nombre</label
+        >
+        <input
+          type="text"
+          id="brand_name_input"
+          formControlName="brandName"
+          class="w-full bg-white rounded border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+        />
+        <div
+          class="grid gap-2 leading-tight mt-1"
+          *ngIf="
+            brandForm.get('brandName')?.touched &&
+            brandForm.get('brandName')?.errors
+          "
+        >
+          <span
+            class="font-medium text-red-500 leading-tight"
+            *ngIf="brandForm.get('brandName')?.errors?.['required']"
+          >
+            El campo del nombre de la marca es requerido.
+          </span>
+          <span
+            class="font-medium text-orange-500 leading-tight"
+            *ngIf="brandForm.get('brandName')?.errors?.['minLength']"
+          >
+            Minimo 3 caracteres.
+          </span>
+        </div>
+      </div>
+      <button
+        type="submit"
+        class="text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded text-lg"
+      >
+        Agregar
+      </button>
+      <p class="text-xs text-gray-500 mt-3">
+        Las marcas son indicaros a la hora de buscar productos.
+      </p>
+    </form>
+    <div
+      class="relative w-full lg:w-3/5 max-h-[720px] overflow-auto mb-2 md:mb-0 scroll-smooth scrollbar-thin scrollbar-thumb-orange"
+    >
+      <table
+        class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+      >
+        <thead
+          class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+        >
+          <tr>
+            <th scope="col" class="px-3 py-3">Marca</th>
+            <th scope="col" class="px-3 py-3">Opciones</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="brands.length > 0; else noBrands">
+          <tr
+            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+            *ngFor="let brand of brands"
+          >
+            <td class="px-3 py-4">{{ brand.brandName }}</td>
+            <td class="px-3 py-4">
+              <button
+                class="text-white bg-red-500 border-0 py-1 px-2 focus:outline-none hover:bg-red-600 rounded text-lg"
+              >
+                Editar
+              </button>
+            </td>
+          </tr>
+        </tbody>
+        <ng-template #noBrands>
+          <tbody>
+            <tr>
+              <td colspan="9" class="text-center py-8 text-gray-500">
+                <img
+                  src="../../../../assets/yaktta_imgs/no-data-found.webp"
+                  alt="Logo"
+                  class="mx-auto w-24 h-24"
+                />
+                Aún no existen marcas que administrar.
+              </td>
+            </tr>
+          </tbody>
+        </ng-template>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Edit modal -->
+<div
+  *ngIf="showModal"
+  class="overflow-x-hidden m-1 fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex"
+>
+  <div class="relative w-auto my-6 mx-auto max-w-3xl">
+    <!--content-->
+    <div
+      class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none"
+    >
+      <!--header-->
+      <div
+        class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t"
+      >
+        <h3 class="text-2xl font-semibold">Editar un producto</h3>
+        <button
+          class="p-1 ml-auto bg-transparent border-0 text-black float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+          (click)="closeModal()"
+        >
+          <span
+            class="bg-transparent text-red-600 h-6 w-6 text-2xl block outline-none focus:outline-none"
+          >
+            ×
+          </span>
+        </button>
+      </div>
+      <!--body-->
+      <div class="relative p-4 flex-auto">
+        <form
+          [formGroup]="edditProductForm"
+          (ngSubmit)="onSubmit()"
+          class="max-h-[680px] overflow-y-auto bg-gray-100 rounded-lg p-8 flex flex-col w-full mb-4 md:mb-0 scroll-smooth scrollbar-thin scrollbar-thumb-orange"
+        >
+          <div class="relative mb-4">
+            <label for="nombre" class="leading-7 text-sm text-gray-600"
+              >Nombre</label
+            >
+            <input
+              type="text"
+              id="nombre"
+              formControlName="name"
+              class="w-full bg-white rounded border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+            />
+            <div
+              class="grid gap-2 leading-tight mt-1"
+              *ngIf="
+                edditProductForm.get('name')?.touched &&
+                edditProductForm.get('name')?.errors
+              "
+            >
+              <span
+                class="font-medium text-red-500 leading-tight"
+                *ngIf="edditProductForm.get('name')?.errors?.['required']"
+              >
+                El campo de nombre es requerido.
+              </span>
+              <span
+                class="font-medium text-orange-500 leading-tight"
+                *ngIf="edditProductForm.get('name')?.errors?.['minLength']"
+              >
+                Minimo 3 caracteres.
+              </span>
+            </div>
+          </div>
+          <div class="relative mb-4">
+            <label for="descripcion" class="leading-7 text-sm text-gray-600">
+              Descripción
+            </label>
+            <input
+              type="text"
+              id="descripcion"
+              formControlName="description"
+              class="w-full bg-white rounded border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+            />
+            <div
+              class="grid gap-2 leading-tight mt-1"
+              *ngIf="
+                edditProductForm.get('description')?.touched &&
+                edditProductForm.get('description')?.errors
+              "
+            >
+              <span
+                class="font-medium text-red-500 leading-tight"
+                *ngIf="edditProductForm.get('description')?.errors?.['required']"
+              >
+                El campo de descripcion es requerido.
+              </span>
+              <span
+                class="font-medium text-orange-500 leading-tight"
+                *ngIf="edditProductForm.get('description')?.errors?.['minLength']"
+              >
+                Minimo 3 caracteres.
+              </span>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="relative mb-4 w-1/2">
+              <label for="stock" class="leading-7 text-sm text-gray-600"
+                >Stock</label
+              >
+              <input
+                type="text"
+                id="stock"
+                formControlName="stock"
+                class="w-full bg-white rounded border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+              />
+            </div>
+            <div class="relative mb-4 w-1/2">
+              <label for="precio" class="leading-7 text-sm text-gray-600">
+                Precio en Soles
+              </label>
+              <input
+                type="text"
+                id="precio"
+                formControlName="price"
+                class="w-full bg-white rounded border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+              />
+            </div>
+          </div>
+          <div class="grid">
+            <div
+              class="grid gap-2 leading-tight"
+              *ngIf="
+                edditProductForm.get('stock')?.touched &&
+                edditProductForm.get('stock')?.errors
+              "
+            >
+              <span
+                class="font-medium text-red-500 leading-tight"
+                *ngIf="edditProductForm.get('stock')?.errors?.['required']"
+              >
+                El campo de stock es requerido.
+              </span>
+              <span
+                class="font-medium text-orange-500 leading-tight"
+                *ngIf="edditProductForm.get('stock')?.errors?.['numericType']"
+              >
+                Debes ingresar un valor numerico para el stock.
+              </span>
+            </div>
+            <div
+              class="grid gap-2 leading-tight"
+              *ngIf="
+                edditProductForm.get('price')?.touched &&
+                edditProductForm.get('price')?.errors
+              "
+            >
+              <span
+                class="font-medium text-red-500 leading-tight"
+                *ngIf="edditProductForm.get('price')?.errors?.['required']"
+              >
+                El campo de precio es requerido.
+              </span>
+              <span
+                class="font-medium text-orange-500 leading-tight"
+                *ngIf="edditProductForm.get('price')?.errors?.['numericDecimalType']"
+              >
+                Debes ingresar un valor numerico para el precio.
+              </span>
+            </div>
+          </div>
+          <div class="relative mb-4">
+            <label for="descuento" class="leading-7 text-sm text-gray-600">
+              Descuento <span class="text-xs text-gray-500">(opcional)</span>
+            </label>
+            <input
+              type="text"
+              id="descuento"
+              formControlName="discount"
+              class="w-full bg-white rounded border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+            />
+            <div
+              class="grid gap-2 leading-tight mt-1"
+              *ngIf="
+                edditProductForm.get('discount')?.touched &&
+                edditProductForm.get('discount')?.errors
+              "
+            >
+              <span
+                class="font-medium text-orange-500 leading-tight"
+                *ngIf="edditProductForm.get('discount')?.errors?.['numericDecimalType']"
+              >
+                Debes ingresar un valor numerico para el descuento.
+              </span>
+            </div>
+          </div>
+          <div class="relative mb-4">
+            <label for="tipo_producto" class="leading-7 text-sm text-gray-600">
+              Tipo de producto
+            </label>
+            <input
+              type="text"
+              id="tipo_producto"
+              formControlName="product_type"
+              class="w-full bg-white rounded border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+            />
+            <div
+              class="grid gap-2 leading-tight mt-1"
+              *ngIf="
+                edditProductForm.get('product_type')?.touched &&
+                edditProductForm.get('product_type')?.errors
+              "
+            >
+              <span
+                class="font-medium text-red-500 leading-tight"
+                *ngIf="edditProductForm.get('product_type')?.errors?.['required']"
+              >
+                El campo de tipo de producto es requerido.
+              </span>
+            </div>
+          </div>
+          <div class="relative mb-4">
+            <label for="imagen" class="leading-7 text-sm text-gray-600">
+              Imagen del producto
+            </label>
+            <input
+              type="file"
+              id="imagen"
+              formControlName="image"
+              (change)="onImageUpload($event)"
+              class="w-full bg-white rounded border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+            />
+            <div
+              class="grid gap-2 leading-tight mt-1"
+              *ngIf="
+                edditProductForm.get('image')?.touched &&
+                edditProductForm.get('image')?.errors
+              "
+            >
+              <span
+                class="font-medium text-red-500 leading-tight"
+                *ngIf="edditProductForm.get('image')?.errors?.['required']"
+              >
+                La imagen es requerida.
+              </span>
+              <span
+                class="font-medium text-red-500 leading-tight"
+                *ngIf="edditProductForm.get('image')?.errors?.['fileSizeValidator']"
+              >
+                La imagen no debe pesar mas de 10MB.
+              </span>
+            </div>
+          </div>
+          <div class="relative mb-4">
+            <label for="marca" class="leading-7 text-sm text-gray-600"
+              >Marca</label
+            >
+            <select
+              id="marca"
+              formControlName="id_brands"
+              class="w-full bg-white rounded border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+            >
+              <option value="">Selecciona la marca del producto</option>
+              <option *ngFor="let brand of brands" [value]="brand.id">
+                {{ brand.brandName }}
+              </option>
+            </select>
+            <div
+              class="grid gap-2 leading-tight mt-1"
+              *ngIf="
+                edditProductForm.get('id_brands')?.touched &&
+                edditProductForm.get('id_brands')?.errors
+              "
+            >
+              <span
+                class="font-medium text-red-500 leading-tight"
+                *ngIf="edditProductForm.get('id_brands')?.errors?.['required']"
+              >
+                El campo de la marca es requerido.
+              </span>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!--footer-->
+      <div
+        class="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b"
+      >
+        <button
+          class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+          type="button"
+          (click)="closeModal()"
+        >
+          Close
+        </button>
+        <button
+          class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+          type="button"
+        >
+          Save Changes
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="showModal" class="opacity-25 fixed inset-0 z-40 bg-black"></div>

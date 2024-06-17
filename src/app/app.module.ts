@@ -11,6 +11,8 @@ import { LoaderInterceptor } from './core/interceptors/loader.interceptor';
 import { FeaturesModule } from './features/features.module';
 import { CoreModule } from './core/core.module';
 import { LoginModule } from './auth/login.module';
+import { TokenInterceptor } from './core/interceptors/token.interceptor';
+import { ServerErrorsInterceptor } from './core/interceptors/server-error.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -26,11 +28,22 @@ import { LoginModule } from './auth/login.module';
     CoreModule,
     LoginModule
   ],
-  providers: [{
-    provide: HTTP_INTERCEPTORS,
-    useClass: LoaderInterceptor,
-    multi: true
-  },],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoaderInterceptor,
+      multi: true
+    }, {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ServerErrorsInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

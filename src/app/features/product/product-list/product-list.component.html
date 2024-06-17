@@ -1,0 +1,42 @@
+<section class="text-gray-600 body-font">
+  <div class="container px-5 py-12 mx-auto">
+    <div
+      class="flex flex-wrap -m-4"
+      *ngIf="products.length > 0; else noProducts"
+    >
+      <div
+        class="p-4 w-full sm:w-1/2 md:w-1/4 lg:w-1/5"
+        *ngFor="let product of products"
+      >
+        <a class="block h-[300px] rounded overflow-hidden">
+          <img
+            alt="ecommerce"
+            class="object-cover object-center w-full h-full block"
+            src="{{ product.image }}"
+          />
+        </a>
+        <div class="mt-4">
+          <h3 class="text-gray-500 text-xs tracking-widest title-font mb-1">
+            {{ product.description }}
+          </h3>
+          <h2 class="text-gray-900 title-font text-lg font-medium">
+            {{ product.name }}
+          </h2>
+          <p class="mt-1">S./ {{ product.price }}</p>
+        </div>
+      </div>
+    </div>
+    <ng-template #noProducts>
+      <div class="text-center py-12">
+        <img
+          src="../../../../assets/yaktta_imgs/no-data-found.webp"
+          alt="Logo"
+          class="mx-auto mb-4 w-24 h-24"
+        />
+        <p class="text-xl text-gray-700">
+          Aún no existen productos en el catálogo.
+        </p>
+      </div>
+    </ng-template>
+  </div>
+</section>

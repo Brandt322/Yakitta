@@ -111,6 +111,17 @@ export class CustomValidators {
     };
   }
 
+  static numericDecimalType(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const value = control.value;
+      const numericPattern = /^\d+(\.\d{1,2})?$/;
+      if (value != null && value != '' && !numericPattern.test(value)) {
+        return { 'numericDecimalType': true };
+      }
+      return null;
+    };
+  }
+
   static minValue(min: number): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       const value = control.value;
