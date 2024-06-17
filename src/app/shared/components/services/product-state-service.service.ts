@@ -31,4 +31,32 @@ export class ProductStateServiceService {
       })
     );
   }
+
+  updateProduct(id: number, product: ProductRequest): Observable<Object> {
+    return this.productService.updateProduct(id, product).pipe(
+      tap((updatedProduct: ProductResponse) => {
+        const currentProducts = this.productsSubject.getValue();
+        const updatedProducts = currentProducts.map(product => product.id === id ? updatedProduct : product);
+        this.productsSubject.next(updatedProducts);
+      }),
+      catchError(error => {
+        // console.error('Error:', error);
+        return throwError(error);
+      })
+    );
+  }
+
+  deleteProduct(id: number): Observable<Object> {
+    return this.productService.deleteProduct(id).pipe(
+      tap(() => {
+        const currentProducts = this.productsSubject.getValue();
+        const updatedProducts = currentProducts.filter(product => product.id !== id);
+        this.productsSubject.next(updatedProducts);
+      }),
+      catchError(error => {
+        // console.error('Error:', error);
+        return throwError(error);
+      })
+    );
+  }
 }

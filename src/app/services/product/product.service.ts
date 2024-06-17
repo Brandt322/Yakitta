@@ -37,9 +37,25 @@ export class ProductService {
     );
   }
 
+  getProductById(id: number): Observable<ProductResponse> {
+    return this.http.get<ProductResponse>(`${this.uri}/${PRODUCT_API_ENDPOINTS.GET_BY_ID}/${id}`).pipe(
+      map((product: ProductResponse) => this.handleProductData(product))
+    );
+  }
+
   createProduct(product: ProductRequest): Observable<ProductResponse> {
     return this.http.post<ProductResponse>(`${this.uri}/${PRODUCT_API_ENDPOINTS.CREATE}`, product).pipe(
       map((newProduct: ProductResponse) => this.handleProductData(newProduct))
     );
+  }
+
+  updateProduct(id: number, productRequest: ProductRequest): Observable<ProductResponse> {
+    return this.http.put<ProductResponse>(`${this.uri}/${PRODUCT_API_ENDPOINTS.EDIT}/${id}`, productRequest).pipe(
+      map((updatedProduct: ProductResponse) => this.handleProductData(updatedProduct))
+    );
+  }
+
+  deleteProduct(id: number): Observable<Object> {
+    return this.http.delete(`${this.uri}/${PRODUCT_API_ENDPOINTS.DELETE}/${id}`);
   }
 }
