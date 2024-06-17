@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { UserService } from './user.service';
+import { LoginRequest } from 'src/app/shared/models/interfaces/login.interface';
+import { LoginService } from './login.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,16 +11,16 @@ export class AuthenticationService {
   private tokenKey = 'token';
   private AUTHORITIES_KEY = 'authorities';
   private roles: Array<string> = [];
-  constructor(private router: Router, private toast: ToastrService, private userService: UserService) { }
+  constructor(private router: Router, private loginService: LoginService, private toast: ToastrService) { }
 
-  // public login(loginRequest: LoginRequest): void {
-  //   this.loginService.login(loginRequest).subscribe(({ token, bearer }) => {
-  //     sessionStorage.setItem(this.tokenKey, token);
-  //     sessionStorage.setItem('bearer', bearer);
-  //     this.router.navigate(['/main']);
-  //     this.toast.success('Bienvenido');
-  //   });
-  // }
+  public login(loginRequest: LoginRequest): void {
+    this.loginService.login(loginRequest).subscribe(({ token, bearer }) => {
+      sessionStorage.setItem(this.tokenKey, token);
+      sessionStorage.setItem('bearer', bearer);
+      this.router.navigate(['/main']);
+      this.toast.success('Bienvenido');
+    });
+  }
 
   logout(): void {
     sessionStorage.clear();
@@ -32,15 +33,11 @@ export class AuthenticationService {
     return token != null && token.length > 0;
   }
 
-  // public getToken(): string | null {
-  //   // console.log(sessionStorage.getItem(this.tokenKey))
-  //   return this.isLoggedIn() ? sessionStorage.getItem(this.tokenKey) : null;
-  // }
+  public getToken(): string | null {
+    // console.log(sessionStorage.getItem(this.tokenKey))
+    return this.isLoggedIn() ? sessionStorage.getItem(this.tokenKey) : null;
+  }
 
-  // public setAuthorities(authorities: string[]): void {
-  //   sessionStorage.removeItem(this.AUTHORITIES_KEY);
-  //   sessionStorage.setItem('authorities', JSON.stringify(authorities));
-  // }
 
   public getAuthorities(): string[] {
     this.roles = [];
