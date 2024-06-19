@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { catchError, Observable } from "rxjs";
 import { REGISTER_API_ENDPOINTS } from './../../core/global/constants/api-endpoints';
 import { RegisterRequest } from "src/app/shared/models/interfaces/register.interface";
-import { environment } from "src/environments/environment.dev";
+import { environment } from "src/environments/environment.prod";
 
 @Injectable({
   providedIn: 'root',

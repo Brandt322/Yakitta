@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BRAND_API_ENDPOINTS } from 'src/app/core/global/constants/api-endpoints';
 import { BrandRequest, BrandResponse } from 'src/app/shared/models/interfaces/brand.interface';
-import { environment } from 'src/environments/environment.dev';
+import { environment } from "src/environments/environment.prod";
 
 @Injectable({
   providedIn: 'root'

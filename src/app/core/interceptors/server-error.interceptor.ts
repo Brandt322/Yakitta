@@ -10,7 +10,7 @@ import { EMPTY, Observable, catchError, retry, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { LoaderService } from '../global/loader/loader.service';
 import { ToastrService } from 'ngx-toastr';
-import { environment } from 'src/environments/environment.dev';
+import { environment } from "src/environments/environment.prod";
 
 interface ResponseBody {
   error?: string;

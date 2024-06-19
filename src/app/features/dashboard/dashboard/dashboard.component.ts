@@ -224,6 +224,7 @@ export class DashboardComponent implements OnInit {
   }
 
   currentImage: string = '';
+
   openModal(productId: number) {
     this.showModal = !this.showModal;
 

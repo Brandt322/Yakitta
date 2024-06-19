@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { PRODUCT_API_ENDPOINTS } from 'src/app/core/global/constants/api-endpoints';
 import { ProductRequest, ProductResponse } from 'src/app/shared/models/interfaces/product.interface';
-import { environment } from 'src/environments/environment.dev';
+import { environment } from "src/environments/environment.prod";
 
 @Injectable({
   providedIn: 'root'

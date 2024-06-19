@@ -3,8 +3,7 @@ import { Injectable } from "@angular/core";
 import { catchError, Observable, tap } from "rxjs";
 import { LOGIN_API_ENDPOINTS } from "src/app/core/global/constants/api-endpoints";
 import { LoginRequest, LoginResponse } from "src/app/shared/models/interfaces/login.interface";
-import { environment } from "src/environments/environment.dev";
-
+import { environment } from "src/environments/environment.prod";
 @Injectable({
   providedIn: 'root',
 })
