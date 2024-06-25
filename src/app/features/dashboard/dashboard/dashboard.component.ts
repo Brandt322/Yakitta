@@ -30,6 +30,4 @@ export class DashboardComponent implements OnInit {
   navigateToProducts() {
     this.router.navigate(['/main/dashboard/products']);
   }
-
-
 }
