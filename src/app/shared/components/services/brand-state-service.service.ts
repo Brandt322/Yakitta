@@ -31,4 +31,36 @@ export class BrandStateServiceService {
       })
     );
   }
+
+  updateBrand(id: number, brandRequest: BrandRequest): Observable<BrandResponse> {
+    return this.brandtService.updateBrand(id, brandRequest).pipe(
+      tap((updatedBrand: BrandResponse) => {
+        const currentBrands = this.brandsSubject.getValue();
+        const brandIndex = currentBrands.findIndex(brand => brand.id === id);
+        if (brandIndex !== -1) {
+          const updatedBrands = [...currentBrands];
+          updatedBrands[brandIndex] = updatedBrand;
+          this.brandsSubject.next(updatedBrands);
+        }
+      }),
+      catchError(error => {
+        // console.error('Error:', error);
+        return throwError(error);
+      })
+    );
+  }
+
+  deleteBrand(id: number): Observable<String> {
+    return this.brandtService.deleteBrand(id).pipe(
+      tap(() => {
+        const currentBrands = this.brandsSubject.getValue();
+        const updatedBrands = currentBrands.filter(brand => brand.id !== id);
+        this.brandsSubject.next(updatedBrands);
+      }),
+      catchError(error => {
+        // console.error('Error:', error);
+        return throwError(error);
+      })
+    );
+  }
 }

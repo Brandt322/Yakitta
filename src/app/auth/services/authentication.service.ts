@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { LoginRequest } from 'src/app/shared/models/interfaces/login.interface';
 import { LoginService } from './login.service';
+import { MessageService } from 'primeng/api';
 
 @Injectable({
   providedIn: 'root',
@@ -11,20 +11,24 @@ export class AuthenticationService {
   private tokenKey = 'token';
   private AUTHORITIES_KEY = 'authorities';
   private roles: Array<string> = [];
-  constructor(private router: Router, private loginService: LoginService, private toast: ToastrService) { }
+  constructor(
+    private router: Router,
+    private loginService: LoginService,
+    private messageService: MessageService
+  ) { }
 
   public login(loginRequest: LoginRequest): void {
     this.loginService.login(loginRequest).subscribe(({ token, bearer }) => {
       sessionStorage.setItem(this.tokenKey, token);
       sessionStorage.setItem('bearer', bearer);
       this.router.navigate(['/main']);
-      this.toast.success('Bienvenido');
+      this.messageService.add({ severity: 'success', summary: 'Bienvenido!', detail: 'Un gusto que vuelvas', life: 2500 });
     });
   }
 
   logout(): void {
     sessionStorage.clear();
-    this.toast.info('Hasta luego');
+    this.messageService.add({ severity: 'info', summary: 'Hasta luego', detail: 'Vuelve pronto', life: 2500 });
     this.router.navigate(['/login']);
   }
 
@@ -38,12 +42,14 @@ export class AuthenticationService {
     return this.isLoggedIn() ? sessionStorage.getItem(this.tokenKey) : null;
   }
 
-
   public getAuthorities(): string[] {
     this.roles = [];
-    if (sessionStorage.getItem(this.AUTHORITIES_KEY)) {
-      JSON.parse(sessionStorage.getItem(this.AUTHORITIES_KEY) || '{}').forEach((authority: string) => {
-        this.roles.push(authority);
+    const sessionData = sessionStorage.getItem('user_data');
+    if (sessionData) {
+      const storedObject = JSON.parse(sessionData);
+      const authorities = storedObject.authorities || [];
+      authorities.forEach((authObject: { authority: string }) => {
+        this.roles.push(authObject.authority);
       });
     }
     return this.roles;

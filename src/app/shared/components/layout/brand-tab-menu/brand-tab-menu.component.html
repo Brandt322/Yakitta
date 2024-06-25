@@ -1,0 +1,169 @@
+<p-table
+  [value]="brands"
+  [paginator]="true"
+  [rows]="5"
+  [showCurrentPageReport]="true"
+  [tableStyle]="{ 'min-width': '50rem' }"
+  currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} entradas"
+  [rowsPerPageOptions]="[10, 25, 50]"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Marca</th>
+      <th>Acciones</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-brand>
+    <tr>
+      <td>{{ brand.brandName }}</td>
+      <td>
+        <button
+          pButton
+          pRipple
+          type="button"
+          icon="pi pi-pencil"
+          class="p-button-rounded p-button-text"
+          (click)="editBrand(brand)"
+        ></button>
+        <button
+          pButton
+          pRipple
+          type="button"
+          icon="pi pi-trash"
+          class="p-button-rounded p-button-text"
+          (click)="confirmDelete(brand)"
+        ></button>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="paginatorleft">
+    <p-button
+      type="button"
+      icon="pi pi-plus"
+      styleClass="p-button-text"
+      (click)="showDialog()"
+    ></p-button>
+  </ng-template>
+</p-table>
+<p-messages
+  [(value)]="messages"
+  [showTransitionOptions]="'500ms'"
+  [hideTransitionOptions]="'500ms'"
+  [enableService]="false"
+></p-messages>
+<p-dialog
+  header="Agrega una marca a la lista"
+  [(visible)]="visible"
+  [modal]="true"
+  [style]="{ width: '40vw' }"
+  [breakpoints]="{ '960px': '75vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <form [formGroup]="brandForm" class="flex flex-column p-fluid">
+    <input
+      pInputText
+      type="text"
+      class="p-inputtext-lg mb-3"
+      placeholder="Ingresa el nombre de la marca"
+      formControlName="brandName"
+    />
+    <div
+      class="p-fluid mb-3 -mt-2 fade-in"
+      *ngIf="
+        brandForm.get('brandName')?.touched &&
+        brandForm.get('brandName')?.errors
+      "
+    >
+      <div
+        class="p-error"
+        *ngIf="brandForm.get('brandName')?.errors?.['required']"
+      >
+        <small>El nombre de la marca es requerido.</small>
+      </div>
+      <div
+        class="p-error"
+        *ngIf="brandForm.get('brandName')?.errors?.['minLength']"
+      >
+        <small>El campo debe tener minimo 3 caracteres.</small>
+      </div>
+    </div>
+    <div class="flex flex-1 gap-2 flex-wrap">
+      <button
+        pButton
+        type="button"
+        label="Cancelar"
+        icon="pi pi-times"
+        class="p-button-secondary"
+        (click)="closeDialog()"
+      ></button>
+      <button
+        pButton
+        type="button"
+        label="Guardar"
+        icon="pi pi-check"
+        class="p-button-primary"
+        (click)="OnSubmitBrand()"
+      ></button>
+    </div>
+  </form>
+</p-dialog>
+<p-dialog
+  header="Edita la marca seleccionada"
+  [(visible)]="editVisible"
+  [modal]="true"
+  [style]="{ width: '40vw' }"
+  [breakpoints]="{ '960px': '75vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <form [formGroup]="editBrandForm" class="flex flex-column p-fluid">
+    <input
+      pInputText
+      type="text"
+      class="p-inputtext-lg mb-3"
+      placeholder="Ingresa el nombre de la marca"
+      formControlName="brandName"
+    />
+    <div
+      class="p-fluid mb-3 -mt-2 fade-in"
+      *ngIf="
+        editBrandForm.get('brandName')?.touched &&
+        editBrandForm.get('brandName')?.errors
+      "
+    >
+      <div
+        class="p-error"
+        *ngIf="editBrandForm.get('brandName')?.errors?.['required']"
+      >
+        <small>El nombre de la marca es requerido.</small>
+      </div>
+      <div
+        class="p-error"
+        *ngIf="editBrandForm.get('brandName')?.errors?.['minLength']"
+      >
+        <small>El campo debe tener minimo 3 caracteres.</small>
+      </div>
+    </div>
+    <div class="flex flex-1 gap-2 flex-wrap">
+      <button
+        pButton
+        type="button"
+        label="Cancelar"
+        icon="pi pi-times"
+        class="p-button-secondary"
+        (click)="closeEditDialog()"
+      ></button>
+      <button
+        pButton
+        type="button"
+        label="Guardar"
+        icon="pi pi-check"
+        class="p-button-primary"
+        (click)="onEditBrand()"
+      ></button>
+    </div>
+  </form>
+</p-dialog>
+<p-toast></p-toast>
+<p-confirmDialog [style]="{ width: '50vw' }"></p-confirmDialog>

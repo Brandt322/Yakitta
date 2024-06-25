@@ -4,6 +4,7 @@ import { ProductListComponent } from './product/product-list/product-list.compon
 import { FacturasListComponent } from './facturas/facturas-list/facturas-list.component';
 import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from '../shared/shared.module';
 
 
 
@@ -15,7 +16,8 @@ import { ReactiveFormsModule } from '@angular/forms';
   ],
   imports: [
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ],
   exports: [
     ProductListComponent,

@@ -12,6 +12,19 @@ export interface Product {
   id_brands: Brand;
 }
 
+export interface ProductCart {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  stock: number;
+  discount: number;
+  quantity: number;
+  image: string;
+  product_type: string;
+  id_brands: Brand;
+}
+
 export interface ProductRequest {
   name: string;
   description: string;

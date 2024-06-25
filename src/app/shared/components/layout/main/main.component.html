@@ -1,2 +1,206 @@
-<app-header></app-header>
-<router-outlet [ngClass]="'max-h-screen overflow-y-auto'"></router-outlet>
+<div class="h-screen flex relative lg:static surface-ground">
+  <div
+    #mainContainer
+    [@sidebarAnimation]="sidebarVisible ? 'open' : 'closed'"
+    class="bg-bluegray-800 scalein h-screen flex-shrink-0 absolute lg:static left-0 top-0 z-1 border-right-1 select-none border-white-alpha-10 fadeinleft animation-ease-out animation-duration-300"
+    style="width: 280px"
+  >
+    <div class="flex flex-column h-screen">
+      <div
+        class="flex align-items-center justify-content-between px-5 bg-bluegray-900 flex-shrink-0"
+        style="height: 60px"
+      >
+        <h3 class="text-white">YAKTTA</h3>
+        <p-button
+          type="button"
+          size="small"
+          class="block lg:hidden"
+          (click)="toogleSidebar($event)"
+          icon="pi pi-arrow-left"
+        ></p-button>
+      </div>
+      <div class="overflow-y-auto mt-3">
+        <ul class="list-none p-3 m-0">
+          <li *ngIf="userDetails.roles.includes('ADMIN')">
+            <a
+              pRipple
+              class="p-element flex align-items-center cursor-pointer p-3 hover:bg-bluegray-900 border-round text-bluegray-100 hover:text-bluegray-50 transition-duration-150 transition-colors"
+              (click)="onButtonClickDashboard()"
+              ><i class="pi pi-home mr-2"></i
+              ><span class="font-medium">Dashboard</span>
+            </a>
+          </li>
+          <li>
+            <a
+              pRipple
+              class="p-element flex align-items-center cursor-pointer p-3 hover:bg-bluegray-900 border-round text-bluegray-100 hover:text-bluegray-50 transition-duration-150 transition-colors"
+              (click)="onButtonClickProducts()"
+              ><i class="pi pi-bookmark mr-2"></i
+              ><span class="font-medium">Productos</span>
+            </a>
+          </li>
+          <li>
+            <a
+              pRipple
+              class="p-element flex align-items-center cursor-pointer p-3 hover:bg-bluegray-900 border-round text-bluegray-100 hover:text-bluegray-50 transition-duration-150 transition-colors"
+              (click)="onButtonClickFacturas()"
+              ><i class="pi pi-users mr-2"></i
+              ><span class="font-medium">Facturas</span>
+            </a>
+          </li>
+          <li>
+            <a
+              pRipple
+              class="p-element flex align-items-center cursor-pointer p-3 hover:bg-bluegray-900 border-round text-bluegray-100 hover:text-bluegray-50 transition-duration-150 transition-colors"
+              ><i class="pi pi-comments mr-2"></i
+              ><span class="font-medium">Mis Compras</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="mt-auto">
+        <hr class="mb-3 mx-3 border-top-1 border-none border-bluegray-600" />
+        <ul
+          class="list-none p-2 m-0 origin-bottom fadein animation-duration-200 overflow-hidden"
+          [ngClass]="{ hidden: !profileVisible, block: profileVisible }"
+        >
+          <li>
+            <a
+              pRipple
+              class="p-element flex align-items-center cursor-pointer p-3 hover:bg-bluegray-900 border-round text-bluegray-100 hover:text-bluegray-50 transition-duration-150 transition-colors"
+              ><i class="pi pi-cog mr-2"></i
+              ><span class="font-medium">Cambiar contraseña</span>
+            </a>
+          </li>
+          <li>
+            <a
+              pRipple
+              class="p-element flex align-items-center cursor-pointer p-3 hover:bg-bluegray-900 border-round text-bluegray-100 hover:text-bluegray-50 transition-duration-150 transition-colors"
+              (click)="logout()"
+              ><i class="pi pi-sign-out mr-2"></i
+              ><span class="font-medium">Sign Out</span>
+            </a>
+          </li>
+        </ul>
+        <a
+          pRipple
+          (click)="toogleProfile()"
+          class="p-element m-3 px-3 py-2 flex align-items-center hover:bg-bluegray-900 border-round cursor-pointer text-bluegray-100 hover:text-bluegray-50 transition-duration-150 transition-colors"
+          ><img
+            src="../../../../../assets/yaktta_imgs/yakkta_logo.webp"
+            class="mr-2"
+            style="width: 28px; height: 28px"
+          /><span class="font-medium">{{ userDetails.email }}</span
+          ><i class="pi pi-chevron-up ml-auto"></i><span class="p-ink"></span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="h-screen flex flex-column relative flex-auto p-fluid">
+    <div
+      class="flex justify-content-between align-items-center px-5 surface-section shadow-2 relative lg:static border-bottom-1 surface-border"
+      style="min-height: 7vh"
+    >
+      <div class="flex">
+        <a
+          pRipple
+          class="p-element cursor-pointer inline-flex align-items-center justify-content-center lg:hidden text-700 mr-3"
+          (click)="toogleSidebar($event)"
+          ><i class="pi pi-bars text-4xl"></i><span class="p-ink"></span>
+        </a>
+      </div>
+      <div>
+        <p-overlayPanel
+          #op
+          [dismissable]="false"
+          [showCloseIcon]="true"
+          styleClass="mt-4"
+        >
+          <span class="text-900 font-medium mb-3 block"
+            >Mi carrito {{ (myCart$ | async)?.length }}</span
+          >
+          <div class="max-h-20rem md:w-20rem overflow-y-auto pt-1">
+            <div
+              class="flex align-items-center justify-content-center border-bottom-1 surface-border pb-3 gap-2 relative"
+              *ngFor="let product of products"
+            >
+              <p-button
+                styleClass="w-2rem self-start"
+                icon="pi pi-times"
+                [text]="true"
+                severity="danger"
+                (onClick)="removeProduct(product)"
+              ></p-button>
+              <img
+                src="{{ product.image }}"
+                class="w-4rem flex-shrink-0 shadow-1"
+              />
+              <div class="flex flex-column">
+                <span class="text-900 font-medium mt-2 mb-2">{{
+                  product.name
+                }}</span>
+                <span class="text-600 mb-2">{{
+                  product.id_brands.brandName
+                }}</span>
+                <span class="text-primary font-bold mb-2"
+                  >$/. {{ product.price }}
+                </span>
+                <div class="flex gap-2">
+                  <p-button
+                    icon="pi pi-plus"
+                    [rounded]="true"
+                    [text]="true"
+                    [raised]="true"
+                    severity="secondary"
+                    (click)="increaseQuantity(product)"
+                  ></p-button>
+                  <p-inputNumber
+                    [(ngModel)]="product.quantity"
+                    (onBlur)="updateQuantityOnBlur(product.id)"
+                    (onInput)="onQuantityInput($event, product.id)"
+                    inputStyleClass="w-4rem"
+                    [min]="1"
+                    [max]="100"
+                  ></p-inputNumber>
+                  <p-button
+                    icon="pi pi-minus"
+                    [rounded]="true"
+                    [text]="true"
+                    [raised]="true"
+                    severity="secondary "
+                    (click)="decreaseQuantity(product)"
+                  ></p-button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="pt-3">
+            <p-button
+              pRipple
+              label="Comprar"
+              styleClass="w-full"
+              [raised]="true"
+            ></p-button>
+          </div>
+        </p-overlayPanel>
+        <i
+          class="pi pi-cart-plus text-3xl cursor-pointer"
+          style="color: #25619c"
+          (click)="op.show($event)"
+          pBadge
+          value="{{ (myCart$ | async)?.length }}"
+        ></i>
+      </div>
+    </div>
+    <div
+      class="p-5 flex flex-column flex-auto overflow-y-auto w-full"
+      [style.opacity]="sidebarVisible && isMobile ? '0.5' : '1'"
+    >
+      <div
+        class="surface-border border-round surface-section flex-auto overflow-y-auto overflow-x-hidden"
+      >
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>

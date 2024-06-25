@@ -7,6 +7,9 @@ import { FacturasListComponent } from './features/facturas/facturas-list/factura
 import { DashboardComponent } from './features/dashboard/dashboard/dashboard.component';
 import { AuthGuard } from './core/guards/auth-guard.guard';
 import { SingUpComponent } from './auth/components/sing-up/sing-up.component';
+import { ProductTabMenuComponent } from './shared/components/layout/product-tab-menu/product-tab-menu.component';
+import { BrandTabMenuComponent } from './shared/components/layout/brand-tab-menu/brand-tab-menu.component';
+import { AdminGuard } from './core/guards/admin-guard.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -16,7 +19,12 @@ const routes: Routes = [
     path: 'main', component: MainComponent, canActivate: [AuthGuard], children: [
       { path: '', pathMatch: 'full', component: ProductListComponent },
       { path: 'facturas', component: FacturasListComponent },
-      { path: 'dashboard', component: DashboardComponent }
+      {
+        path: 'dashboard', component: DashboardComponent, canActivate: [AdminGuard], children: [
+          { path: 'products', component: ProductTabMenuComponent },
+          { path: 'brands', component: BrandTabMenuComponent }
+        ]
+      }
     ]
   },
 ];

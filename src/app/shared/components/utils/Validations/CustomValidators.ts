@@ -71,7 +71,7 @@ export class CustomValidators {
     return (control: AbstractControl): { [key: string]: any } | null => {
       const value = control.value;
       const emailPattern = /^[a-zA-Z0-9._%+-ñÑ]+@[a-zA-Z0-9.-ñÑ]+\.[a-zA-Z]{2,}$/;
-      if (value != null && !emailPattern.test(value)) {
+      if (value && !emailPattern.test(value)) {
         return { 'email': true };
       }
       return null;
@@ -162,5 +162,29 @@ export class CustomValidators {
       }
       return null;
     };
+  }
+
+  static lowercase(control: AbstractControl) {
+    const value = control.value;
+    if (!value || !/[a-z]/.test(value)) {
+      return { 'lowercase': true };
+    }
+    return null;
+  }
+
+  static uppercase(control: AbstractControl) {
+    const value = control.value;
+    if (!value || !/[A-Z]/.test(value)) {
+      return { 'uppercase': true };
+    }
+    return null;
+  }
+
+  static numeric(control: AbstractControl) {
+    const value = control.value;
+    if (!value || !/[0-9]/.test(value)) {
+      return { 'numeric': true };
+    }
+    return null;
   }
 }
