@@ -332,6 +332,7 @@
   [breakpoints]="{ '960px': '75vw' }"
   [draggable]="false"
   [resizable]="false"
+  (onHide)="closeEditDialog()"
 >
   <form [formGroup]="editProductForm" class="grid formgrid p-fluid">
     <div class="field col-12 md:col-6 mb-2">
@@ -541,6 +542,7 @@
           </div>
           <div class="md:col-10 flex-1">
             <input
+              #imageInput
               pInputText
               type="file"
               (change)="onImageEditUpload($event)"

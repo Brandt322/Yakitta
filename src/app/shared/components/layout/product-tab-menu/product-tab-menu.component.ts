@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ProductStateServiceService } from '../../services/product-state-service.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { catchError, throwError } from 'rxjs';
@@ -41,6 +41,7 @@ export class ProductTabMenuComponent implements OnInit {
   visibleEditModal: boolean = false;
   imageFile: File | undefined;
   messages!: Message[];
+  @ViewChild('imageInput') imageInputElement!: ElementRef;
 
   // Para almacenar la vista previa de la imagen actual o nueva
   currentImagePreview: string = '';
@@ -129,11 +130,18 @@ export class ProductTabMenuComponent implements OnInit {
           this.currentImagePreview = reader.result;
         } else {
           // Asignar un valor predeterminado en caso de que reader.result no sea una cadena
-          this.currentImagePreview = 'path/to/default/image.png'; // Asegúrate de reemplazar 'path/to/default/image.png' con la ruta real a tu imagen predeterminada.
+          this.currentImagePreview = ''; // Asegúrate de reemplazar 'path/to/default/image.png' con la ruta real a tu imagen predeterminada.
         }
       };
       reader.readAsDataURL(file);
       this.imageFile = file;
+    }
+  }
+
+  clearImageInput() {
+    if (this.imageInputElement && this.imageInputElement.nativeElement) {
+      this.imageInputElement.nativeElement.value = '';
+      this.currentImagePreview = ''; // También limpia la vista previa de la imagen si es necesario
     }
   }
 
@@ -151,7 +159,6 @@ export class ProductTabMenuComponent implements OnInit {
       image: this.currentImagePreview,
       id_brands: product.id_brands.id
     });
-
     this.showEditDialog();
   }
 
@@ -286,5 +293,6 @@ export class ProductTabMenuComponent implements OnInit {
 
   closeEditDialog() {
     this.visibleEditModal = false;
+    this.clearImageInput();
   }
 }
