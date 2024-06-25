@@ -21,4 +21,12 @@ export class BrandService {
   createBrand(brandRequest: BrandRequest): Observable<BrandResponse> {
     return this.http.post<BrandResponse>(`${this.uri}/${BRAND_API_ENDPOINTS.CREATE}`, brandRequest);
   }
+
+  updateBrand(id: number, brandRequest: BrandRequest): Observable<BrandResponse> {
+    return this.http.put<BrandResponse>(`${this.uri}/${BRAND_API_ENDPOINTS.UPDATE}/${id}`, brandRequest);
+  }
+
+  deleteBrand(id: number): Observable<string> {
+    return this.http.delete(`${this.uri}/${BRAND_API_ENDPOINTS.DELETE}/${id}`, { responseType: 'text' });
+  }
 }

@@ -1,8 +1,4 @@
-<app-loader
-  *ngIf="loader.isLoading$ | async"
-  [ngClass]="
-    'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50'
-  "
-></app-loader>
+<app-loader *ngIf="loader.isLoading$ | async" [ngClass]="'loader'"></app-loader>
 
-<router-outlet [ngClass]="'relative'"></router-outlet>
+<router-outlet [ngClass]="'relative-loader'"></router-outlet>
+<p-toast></p-toast>

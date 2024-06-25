@@ -1,0 +1,37 @@
+/* Asegúra de que el contenedor principal distribuya el espacio correctamente */
+.h-screen.flex.relative.lg\:static.surface-ground {
+  display: flex;
+  flex-direction: row; /* Distribuye los elementos de forma horizontal */
+  height: 100vh; /* Usa 100vh para que tome toda la altura de la ventana */
+}
+
+/* Establece una altura máxima para el sidebar para permitir el scroll */
+.bg-bluegray-800.scalein.h-screen.flex-shrink-0.absolute.lg\:static {
+  max-height: 100vh; /* Limita la altura */
+  overflow-y: auto; /* Habilita el scroll si el contenido excede la altura */
+}
+
+/* Asegúra de que el contenedor del contenido principal permita el scroll */
+.h-screen.flex.flex-column.relative.flex-auto {
+  overflow-y: auto; /* Habilita el scroll para el contenido principal */
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #eee;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--blue-400);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #88dd88;
+}

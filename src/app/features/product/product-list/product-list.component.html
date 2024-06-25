@@ -1,42 +1,56 @@
-<section class="text-gray-600 body-font">
-  <div class="container px-5 py-12 mx-auto">
-    <div
-      class="flex flex-wrap -m-4"
-      *ngIf="products.length > 0; else noProducts"
-    >
+<div class="grid p-2" *ngIf="products.length > 0; else noProducts">
+  <div
+    class="col-12 md:col-6 xl:col-3 p-flex-column"
+    *ngFor="let product of products"
+  >
+    <div class="surface-card shadow-2 border-round p-2 flex-fill">
       <div
-        class="p-4 w-full sm:w-1/2 md:w-1/4 lg:w-1/5"
-        *ngFor="let product of products"
+        class="flex flex-column align-items-center border-bottom-1 surface-border pb-1"
       >
-        <a class="block h-[300px] rounded overflow-hidden">
-          <img
-            alt="ecommerce"
-            class="object-cover object-center w-full h-full block"
-            src="{{ product.image }}"
-          />
-        </a>
-        <div class="mt-4">
-          <h3 class="text-gray-500 text-xs tracking-widest title-font mb-1">
-            {{ product.description }}
-          </h3>
-          <h2 class="text-gray-900 title-font text-lg font-medium">
-            {{ product.name }}
-          </h2>
-          <p class="mt-1">S./ {{ product.price }}</p>
-        </div>
+        <p-image
+          src="{{ product.image }}"
+          alt="Image product"
+          width="250"
+          height="250"
+          styleClass="mb-3 "
+        ></p-image>
+        <span class="text-xl text-900 font-medium text-center mb-2">
+          {{ product.name }}
+        </span>
+        <span class="text-600 font-medium text-center mb-3">
+          {{ product.description }}
+        </span>
+        <span class="text-2xl text-800 block mb-3 font-semibold">
+          S./ {{ product.price }}
+        </span>
+      </div>
+      <div class="flex pt-1 justify-content-center align-items-center">
+        <button
+          pRipple
+          icon="pi pi-shopping-cart"
+          label="Buy Now"
+          class="p-element p-ripple p-button-text p-button p-component"
+          (click)="addProductToCart(product)"
+        >
+          <span
+            class="p-button-icon pi pi-shopping-cart mr-1"
+            aria-hidden="true"
+          ></span>
+          <span class="p-button-label">Agregar al carrito</span>
+        </button>
       </div>
     </div>
-    <ng-template #noProducts>
-      <div class="text-center py-12">
-        <img
-          src="../../../../assets/yaktta_imgs/no-data-found.webp"
-          alt="Logo"
-          class="mx-auto mb-4 w-24 h-24"
-        />
-        <p class="text-xl text-gray-700">
-          Aún no existen productos en el catálogo.
-        </p>
-      </div>
-    </ng-template>
   </div>
-</section>
+</div>
+<ng-template #noProducts>
+  <div class="text-center py-12">
+    <img
+      src="../../../../assets/yaktta_imgs/no-data-found.webp"
+      alt="No products"
+      class="mx-auto mb-4 w-24 h-24"
+    />
+    <p class="text-xl text-gray-700">
+      Aún no existen productos en el catálogo.
+    </p>
+  </div>
+</ng-template>

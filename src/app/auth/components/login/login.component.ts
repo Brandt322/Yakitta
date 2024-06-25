@@ -6,12 +6,11 @@ import { CustomValidators } from 'src/app/shared/components/utils/Validations/Cu
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
 
   loginForm!: FormGroup;
-
   constructor(private fb: FormBuilder, private authenticationService: AuthenticationService) { }
 
   ngOnInit(): void {
@@ -23,7 +22,13 @@ export class LoginComponent implements OnInit {
   loginFormBuild() {
     this.loginForm = this.fb.group({
       username: ['', [CustomValidators.required, CustomValidators.emailValidator()]],
-      password: ['', [CustomValidators.required, CustomValidators.minLength(1)]],
+      password: ['', [
+        CustomValidators.required,
+        CustomValidators.minLength(8),
+        CustomValidators.lowercase,
+        CustomValidators.uppercase,
+        CustomValidators.numeric
+      ]],
     });
   }
 

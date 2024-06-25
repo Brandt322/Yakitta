@@ -12,7 +12,7 @@ export const PRODUCT_API_ENDPOINTS = {
 export const BRAND_API_ENDPOINTS = {
   GET_ALL: REQUEST_MAPPING + '/brands',
   CREATE: REQUEST_MAPPING + '/brands/new-brand',
-  EDIT: REQUEST_MAPPING + '/brands/edit',
+  UPDATE: REQUEST_MAPPING + '/brands/edit',
   DELETE: REQUEST_MAPPING + '/brands',
 };
 

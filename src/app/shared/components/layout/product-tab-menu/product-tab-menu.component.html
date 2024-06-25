@@ -1,0 +1,588 @@
+<p-table
+  [value]="products"
+  [paginator]="true"
+  scrollDirection="both"
+  [rows]="5"
+  [showCurrentPageReport]="true"
+  [tableStyle]="{ 'min-width': '50rem' }"
+  currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} entradas"
+  [rowsPerPageOptions]="[10, 25, 50]"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Imagen</th>
+      <th>Nombre</th>
+      <th>Descripción</th>
+      <th>Stock</th>
+      <th>Precio</th>
+      <th>Descuento</th>
+      <th>Tipo de producto</th>
+      <th>Marca</th>
+      <th>Acciones</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-product>
+    <tr>
+      <td>
+        <p-image
+          src="{{ product.image }}"
+          alt="producto img"
+          width="100"
+          styleClass="border-round-xl"
+          [preview]="true"
+        ></p-image>
+      </td>
+      <td>{{ product.name }}</td>
+      <td>{{ product.description }}</td>
+      <td>{{ product.stock }}</td>
+      <td>{{ product.price }}</td>
+      <td>{{ product.discount }}</td>
+      <td>{{ product.product_type }}</td>
+      <td>{{ product.id_brands.brandName }}</td>
+      <td>
+        <button
+          pButton
+          pRipple
+          type="button"
+          icon="pi pi-pencil"
+          class="p-button-rounded p-button-text"
+          (click)="editBrand(product)"
+        ></button>
+        <button
+          pButton
+          pRipple
+          type="button"
+          icon="pi pi-trash"
+          class="p-button-rounded p-button-text"
+          (click)="confirmDelete(product)"
+        ></button>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="paginatorleft">
+    <p-button
+      type="button"
+      icon="pi pi-plus"
+      styleClass="p-button-text"
+      (click)="showDialog()"
+    ></p-button>
+  </ng-template>
+</p-table>
+<p-messages
+  [(value)]="messages"
+  [showTransitionOptions]="'500ms'"
+  [hideTransitionOptions]="'500ms'"
+  [enableService]="false"
+></p-messages>
+<p-dialog
+  header="Agrega un producto a la lista"
+  [(visible)]="visibleCreateModal"
+  [modal]="true"
+  [style]="{ width: '50vw' }"
+  [breakpoints]="{ '960px': '75vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <form [formGroup]="productForm" class="grid formgrid p-fluid">
+    <div class="field col-12 md:col-6 mb-2">
+      <label>Nombre</label>
+      <input
+        pInputText
+        type="text"
+        class="mb-2"
+        placeholder="Ingresa el nombre del producto"
+        formControlName="name"
+      />
+      <div
+        class="p-fluid mb-2 -mt-2 fade-in"
+        *ngIf="
+          productForm.get('name')?.touched && productForm.get('name')?.errors
+        "
+      >
+        <div
+          class="p-error"
+          *ngIf="productForm.get('name')?.errors?.['required']"
+        >
+          <small>El nombre del producto es requerido.</small>
+        </div>
+        <div
+          class="p-error"
+          *ngIf="productForm.get('name')?.errors?.['minLength']"
+        >
+          <small>El campo debe tener minimo 3 caracteres.</small>
+        </div>
+      </div>
+    </div>
+    <div class="field col-12 md:col-6 mb-2">
+      <label>Marca</label>
+      <p-dropdown
+        formControlName="id_brands"
+        [options]="brands"
+        optionLabel="brandName"
+        optionValue="id"
+        inputId="Marca"
+        styleClass=" mb-2"
+        placeholder="Selecciona una marca"
+      ></p-dropdown>
+      <div
+        class="p-fluid mb-2 -mt-2 fade-in"
+        *ngIf="
+          productForm.get('id_brands')?.touched &&
+          productForm.get('id_brands')?.errors
+        "
+      >
+        <div
+          class="p-error"
+          *ngIf="productForm.get('id_brands')?.errors?.['required']"
+        >
+          <small>Debes escoger una marca para tu producto.</small>
+        </div>
+      </div>
+    </div>
+    <div class="field col-12 md:col-6 mb-2">
+      <label>Stock</label>
+      <input
+        pInputText
+        type="text"
+        class="mb-2"
+        placeholder="Ingresa el stock del producto"
+        formControlName="stock"
+      />
+      <div
+        class="p-fluid mb-2 -mt-2 fade-in"
+        *ngIf="
+          productForm.get('stock')?.touched && productForm.get('stock')?.errors
+        "
+      >
+        <div
+          class="p-error"
+          *ngIf="productForm.get('stock')?.errors?.['required']"
+        >
+          <small>El stock del producto es requerido.</small>
+        </div>
+        <div
+          class="p-error"
+          *ngIf="productForm.get('stock')?.errors?.['numericType']"
+        >
+          <small>Debes ingresar un valor numerico para el stock.</small>
+        </div>
+      </div>
+    </div>
+    <div class="field col-12 md:col-6 mb-2">
+      <label>Precio</label>
+      <input
+        pInputText
+        type="text"
+        class="mb-2"
+        placeholder="Ingresa el precio del producto"
+        formControlName="price"
+      />
+      <div
+        class="p-fluid mb-2 -mt-2 fade-in"
+        *ngIf="
+          productForm.get('price')?.touched && productForm.get('price')?.errors
+        "
+      >
+        <div
+          class="p-error"
+          *ngIf="productForm.get('price')?.errors?.['required']"
+        >
+          <small>El precio del producto es requerido.</small>
+        </div>
+        <div
+          class="p-error"
+          *ngIf="productForm.get('price')?.errors?.['numericDecimalType']"
+        >
+          <small>Debes ingresar un valor numerico para el price.</small>
+        </div>
+      </div>
+    </div>
+    <div class="field col-12 mb-2">
+      <label>Descripción</label>
+      <textarea
+        rows="5"
+        pInputTextarea
+        formControlName="description"
+        [autoResize]="true"
+      ></textarea>
+      <div
+        class="p-fluid mb-2 -mt-2 fade-in"
+        *ngIf="
+          productForm.get('description')?.touched &&
+          productForm.get('description')?.errors
+        "
+      >
+        <div
+          class="p-error"
+          *ngIf="productForm.get('description')?.errors?.['required']"
+        >
+          <small>El precio del producto es requerido.</small>
+        </div>
+        <div
+          class="p-error"
+          *ngIf="productForm.get('description')?.errors?.['minLength']"
+        >
+          <small>El campo debe tener minimo 3 caracteres.</small>
+        </div>
+      </div>
+    </div>
+    <div class="field col-12 md:col-6 mb-2">
+      <label>Descuento <span class="text-500">(Opcional)</span></label>
+      <input
+        pInputText
+        type="text"
+        class="mb-2"
+        placeholder="Ingresa el descuento del producto"
+        formControlName="discount"
+      />
+      <div
+        class="p-fluid mb-2 -mt-2 fade-in"
+        *ngIf="
+          productForm.get('discount')?.touched &&
+          productForm.get('discount')?.errors
+        "
+      >
+        <div
+          class="p-error"
+          *ngIf="productForm.get('discount')?.errors?.['numericDecimalType']"
+        >
+          <small>Debes ingresar un valor numerico para el discount.</small>
+        </div>
+      </div>
+    </div>
+    <div class="field col-12 md:col-6 mb-2">
+      <label>Tipo de producto</label>
+      <input
+        pInputText
+        type="text"
+        class="mb-2"
+        placeholder="Ingresa el tipo de producto"
+        formControlName="product_type"
+      />
+      <div
+        class="p-fluid mb-2 -mt-2 fade-in"
+        *ngIf="
+          productForm.get('product_type')?.touched &&
+          productForm.get('product_type')?.errors
+        "
+      >
+        <div
+          class="p-error"
+          *ngIf="productForm.get('product_type')?.errors?.['required']"
+        >
+          <small>Debes indicar el tipo de producto.</small>
+        </div>
+      </div>
+    </div>
+    <div class="field col-12 mb-2">
+      <label>Imagen</label>
+      <input
+        pInputText
+        type="file"
+        formControlName="image"
+        class="mb-2"
+        (change)="onImageUpload($event)"
+      />
+      <div
+        class="p-fluid mb-2 -mt-2 fade-in"
+        *ngIf="
+          productForm.get('image')?.touched && productForm.get('image')?.errors
+        "
+      >
+        <div
+          class="p-error"
+          *ngIf="productForm.get('image')?.errors?.['required']"
+        >
+          <small>Debes elegir una imagen.</small>
+        </div>
+        <div
+          class="p-error"
+          *ngIf="productForm.get('image')?.errors?.['fileSizeValidator']"
+        >
+          <small>Maximo 10mb.</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 p-fluid flex flex-column gap-1 md:flex-row md:gap-2">
+      <button
+        pButton
+        type="button"
+        label="Guardar"
+        icon="pi pi-check"
+        class="p-button-primary field"
+        (click)="onSubmitProduct()"
+      ></button>
+      <button
+        pButton
+        type="button"
+        label="Cancelar"
+        icon="pi pi-times"
+        class="p-button-secondary field"
+        (click)="closeDialog()"
+      ></button>
+    </div>
+  </form>
+</p-dialog>
+<p-dialog
+  header="Editar el producto"
+  [(visible)]="visibleEditModal"
+  [modal]="true"
+  [style]="{ width: '50vw' }"
+  [breakpoints]="{ '960px': '75vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <form [formGroup]="editProductForm" class="grid formgrid p-fluid">
+    <div class="field col-12 md:col-6 mb-2">
+      <label>Nombre</label>
+      <input
+        pInputText
+        type="text"
+        class="mb-2"
+        placeholder="Ingresa el nombre del producto"
+        formControlName="name"
+      />
+      <div
+        class="p-fluid mb-2 -mt-2 fade-in"
+        *ngIf="
+          editProductForm.get('name')?.touched &&
+          editProductForm.get('name')?.errors
+        "
+      >
+        <div
+          class="p-error"
+          *ngIf="editProductForm.get('name')?.errors?.['required']"
+        >
+          <small>El nombre del producto es requerido.</small>
+        </div>
+        <div
+          class="p-error"
+          *ngIf="editProductForm.get('name')?.errors?.['minLength']"
+        >
+          <small>El campo debe tener minimo 3 caracteres.</small>
+        </div>
+      </div>
+    </div>
+    <div class="field col-12 md:col-6 mb-2">
+      <label>Marca</label>
+      <p-dropdown
+        formControlName="id_brands"
+        [options]="brands"
+        optionLabel="brandName"
+        optionValue="id"
+        inputId="Marca"
+        styleClass=" mb-2"
+        placeholder="Selecciona una marca"
+      ></p-dropdown>
+      <div
+        class="p-fluid mb-2 -mt-2 fade-in"
+        *ngIf="
+          editProductForm.get('id_brands')?.touched &&
+          editProductForm.get('id_brands')?.errors
+        "
+      >
+        <div
+          class="p-error"
+          *ngIf="editProductForm.get('id_brands')?.errors?.['required']"
+        >
+          <small>Debes escoger una marca para tu producto.</small>
+        </div>
+      </div>
+    </div>
+    <div class="field col-12 md:col-6 mb-2">
+      <label>Stock</label>
+      <input
+        pInputText
+        type="text"
+        class="mb-2"
+        placeholder="Ingresa el stock del producto"
+        formControlName="stock"
+      />
+      <div
+        class="p-fluid mb-2 -mt-2 fade-in"
+        *ngIf="
+          editProductForm.get('stock')?.touched &&
+          editProductForm.get('stock')?.errors
+        "
+      >
+        <div
+          class="p-error"
+          *ngIf="editProductForm.get('stock')?.errors?.['required']"
+        >
+          <small>El stock del producto es requerido.</small>
+        </div>
+        <div
+          class="p-error"
+          *ngIf="editProductForm.get('stock')?.errors?.['numericType']"
+        >
+          <small>Debes ingresar un valor numerico para el stock.</small>
+        </div>
+      </div>
+    </div>
+    <div class="field col-12 md:col-6 mb-2">
+      <label>Precio</label>
+      <input
+        pInputText
+        type="text"
+        class="mb-2"
+        placeholder="Ingresa el precio del producto"
+        formControlName="price"
+      />
+      <div
+        class="p-fluid mb-2 -mt-2 fade-in"
+        *ngIf="
+          editProductForm.get('price')?.touched &&
+          editProductForm.get('price')?.errors
+        "
+      >
+        <div
+          class="p-error"
+          *ngIf="editProductForm.get('price')?.errors?.['required']"
+        >
+          <small>El precio del producto es requerido.</small>
+        </div>
+        <div
+          class="p-error"
+          *ngIf="editProductForm.get('price')?.errors?.['numericDecimalType']"
+        >
+          <small>Debes ingresar un valor numerico para el price.</small>
+        </div>
+      </div>
+    </div>
+    <div class="field col-12 mb-2">
+      <label>Descripción</label>
+      <textarea
+        rows="5"
+        pInputTextarea
+        formControlName="description"
+        [autoResize]="true"
+      ></textarea>
+      <div
+        class="p-fluid mb-2 -mt-2 fade-in"
+        *ngIf="
+          editProductForm.get('description')?.touched &&
+          editProductForm.get('description')?.errors
+        "
+      >
+        <div
+          class="p-error"
+          *ngIf="editProductForm.get('description')?.errors?.['required']"
+        >
+          <small>El precio del producto es requerido.</small>
+        </div>
+        <div
+          class="p-error"
+          *ngIf="editProductForm.get('description')?.errors?.['minLength']"
+        >
+          <small>El campo debe tener minimo 3 caracteres.</small>
+        </div>
+      </div>
+    </div>
+    <div class="field col-12 md:col-6 mb-2">
+      <label>Descuento <span class="text-500">(Opcional)</span></label>
+      <input
+        pInputText
+        type="text"
+        class="mb-2"
+        placeholder="Ingresa el descuento del producto"
+        formControlName="discount"
+      />
+      <div
+        class="p-fluid mb-2 -mt-2 fade-in"
+        *ngIf="
+          editProductForm.get('discount')?.touched &&
+          editProductForm.get('discount')?.errors
+        "
+      >
+        <div
+          class="p-error"
+          *ngIf="editProductForm.get('discount')?.errors?.['numericDecimalType']"
+        >
+          <small>Debes ingresar un valor numerico para el discount.</small>
+        </div>
+      </div>
+    </div>
+    <div class="field col-12 md:col-6 mb-2">
+      <label>Tipo de producto</label>
+      <input
+        pInputText
+        type="text"
+        class="mb-2"
+        placeholder="Ingresa el tipo de producto"
+        formControlName="product_type"
+      />
+      <div
+        class="p-fluid mb-2 -mt-2 fade-in"
+        *ngIf="
+          editProductForm.get('product_type')?.touched &&
+          editProductForm.get('product_type')?.errors
+        "
+      >
+        <div
+          class="p-error"
+          *ngIf="editProductForm.get('product_type')?.errors?.['required']"
+        >
+          <small>Debes indicar el tipo de producto.</small>
+        </div>
+      </div>
+    </div>
+    <div class="field col-12 mb-2">
+      <div class="grid formgrid">
+        <label class="col-12">Imagen</label>
+        <div class="col-12 flex align-items-center">
+          <div class="md:col-2 flex">
+            <p-avatar
+              [image]="currentImagePreview"
+              shape="circle"
+              styleClass="mr-2"
+              size="xlarge"
+            ></p-avatar>
+          </div>
+          <div class="md:col-10 flex-1">
+            <input
+              pInputText
+              type="file"
+              (change)="onImageEditUpload($event)"
+            />
+            <div
+              class="p-fluid mb-2 -mt-2 fade-in"
+              *ngIf="
+                editProductForm.get('image')?.touched &&
+                editProductForm.get('image')?.errors
+              "
+            >
+              <div
+                class="p-error"
+                *ngIf="editProductForm.get('image')?.errors?.['fileSizeValidator']"
+              >
+                <small>Maximo 10mb.</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 p-fluid flex flex-column gap-1 md:flex-row md:gap-2">
+      <button
+        pButton
+        type="button"
+        label="Guardar"
+        icon="pi pi-check"
+        class="p-button-primary field"
+        (click)="onEditProduct()"
+      ></button>
+      <button
+        pButton
+        type="button"
+        label="Cancelar"
+        icon="pi pi-times"
+        class="p-button-secondary field"
+        (click)="closeEditDialog()"
+      ></button>
+    </div>
+  </form>
+</p-dialog>
+<p-toast></p-toast>
+<p-confirmDialog [style]="{ width: '50vw' }"></p-confirmDialog>

@@ -55,7 +55,7 @@ export class ProductService {
     );
   }
 
-  deleteProduct(id: number): Observable<Object> {
-    return this.http.delete(`${this.uri}/${PRODUCT_API_ENDPOINTS.DELETE}/${id}`);
+  deleteProduct(id: number): Observable<String> {
+    return this.http.delete(`${this.uri}/${PRODUCT_API_ENDPOINTS.DELETE}/${id}`, { responseType: 'text' });
   }
 }

@@ -1,112 +1,123 @@
-<div class="grid lg:grid-cols-2">
-  <div class="flex items-center mx-auto h-screen">
-    <form
-      [formGroup]="loginForm"
-      class="grid gap-5 grid-cols-1 w-96 sm:w-[500px] px-2"
-    >
-      <div>
-        <img
-          src="../../../assets/yaktta_imgs/yakkta_logo.webp"
-          alt="fractal-logo"
-          class="mb-4"
-        />
-        <p class="font-medium text-xl">Inicio de sesión</p>
-      </div>
-      <div>
-        <label for="username" class="font-medium block mb-2 text-gray-900">
-          Correo electrónico
-        </label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-4 focus:ring-gray-200 focus:border-gray-300 block w-full p-2.5"
-          placeholder="Nombre de usuario"
-          autocomplete="on"
-          formControlName="username"
-        />
+<div class="flex h-full">
+  <div class="surface-section w-full md:w-6 p-6 md:p-8 my-auto">
+    <div class="mb-5">
+      <img
+        src="assets/yaktta_imgs/yakkta_logo.webp"
+        alt="Image"
+        height="50"
+        class="mb-3"
+      />
+      <div class="text-900 text-3xl font-medium mb-3">Inicio de sesión</div>
+      <span class="text-600 font-medium mr-2">No tienes una cuenta?</span
+      ><a
+        class="font-medium no-underline text-blue-500 cursor-pointer"
+        routerLink="/register"
+        >Creala hoy mismo!</a
+      >
+    </div>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <label for="email" class="block text-900 font-medium mb-2"
+        >Correo electrónico</label
+      ><input
+        id="email"
+        type="text"
+        formControlName="username"
+        placeholder="Ingresa tu correo electrónico"
+        aria-describedby="username-help"
+        pinputtext=""
+        class="p-inputtext p-component p-element w-full mb-3 p-3"
+      />
+      <div
+        class="p-fluid mb-3 -mt-2 fade-in"
+        *ngIf="
+          loginForm.get('username')?.touched &&
+          loginForm.get('username')?.errors
+        "
+      >
         <div
-          class="grid gap-2 leading-tight mt-1"
-          *ngIf="
-            loginForm.get('username')?.touched &&
-            loginForm.get('username')?.errors
-          "
+          class="p-error"
+          *ngIf="loginForm.get('username')?.errors?.['required']"
         >
-          <span
-            class="font-medium text-red-500 leading-tight"
-            *ngIf="loginForm.get('username')?.errors?.['required']"
-          >
-            El campo de username es requerido.
-          </span>
-          <span
-            class="font-medium text-orange-500 leading-tight"
-            *ngIf="loginForm.get('username')?.errors?.['email']"
-          >
-            El formato de email es incorrecto.
-          </span>
+          <small>El correo es requerido.</small>
+        </div>
+        <div
+          class="p-error"
+          *ngIf="loginForm.get('username')?.errors?.['email']"
+        >
+          <small>El formato de email es incorrecto.</small>
         </div>
       </div>
-
-      <div class="">
-        <label for="password" class="font-medium block mb-2 text-gray-900">
-          Contraseña
-        </label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-4 focus:ring-gray-200 focus:border-gray-300 block w-full p-2.5"
-          placeholder="Contraseña"
+      <label for="password2" class="block text-900 font-medium mb-2"
+        >Password</label
+      >
+      <div class="p-inputtext p-component p-element p-fluid w-full mb-3">
+        <p-password
+          placeholder="Ingresa tu contraseña"
           formControlName="password"
-        />
-        <div
-          class="grid gap-2 leading-tight mt-1"
-          *ngIf="
-            loginForm.get('password')?.touched &&
-            loginForm.get('password')?.errors
-          "
+          styleClass="p-fluid"
+          [toggleMask]="true"
         >
-          <span
-            class="font-medium text-red-500 leading-tight"
-            *ngIf="loginForm.get('password')?.errors?.['required']"
-          >
-            El campo de password es requerido.
-          </span>
-          <span
-            class="font-medium text-red-500 leading-tight"
-            *ngIf="loginForm.get('password')?.errors?.['minLength']"
-          >
-            Debes ingresar al menos un digito.
-          </span>
-        </div>
+          <ng-template pTemplate="footer">
+            <p-divider></p-divider>
+            <p class="mt-1">Completa las condiciones</p>
+            <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+              <li
+                [ngClass]="{'text-green-500': !loginForm.get('password')?.errors?.['lowercase'], 'text-red-500': loginForm.get('password')?.errors?.['lowercase']}"
+              >
+                Al menos una minúscula
+              </li>
+              <li
+                [ngClass]="{'text-green-500': !loginForm.get('password')?.errors?.['uppercase'], 'text-red-500': loginForm.get('password')?.errors?.['uppercase']}"
+              >
+                Al menos una mayúscula
+              </li>
+              <li
+                [ngClass]="{'text-green-500': !loginForm.get('password')?.errors?.['numeric'], 'text-red-500': loginForm.get('password')?.errors?.['numeric']}"
+              >
+                Al menos un numero
+              </li>
+              <li
+                [ngClass]="{'text-green-500': !loginForm.get('password')?.errors?.['minLength'], 'text-red-500': loginForm.get('password')?.errors?.['minLength']}"
+              >
+                Mínimo 8 caracteres
+              </li>
+            </ul>
+          </ng-template>
+        </p-password>
       </div>
-
-      <div class="flex flex-col gap-2">
-        <a class="text-[#0A84C2] font-medium hover:underline"
-          >Olvidé mi contraseña</a
+      <div
+        class="p-fluid mb-3 -mt-2 fade-in"
+        *ngIf="
+          loginForm.get('password')?.touched &&
+          loginForm.get('password')?.errors
+        "
+      >
+        <div
+          class="p-error"
+          *ngIf="loginForm.get('password')?.errors?.['required']"
         >
-        <a
-          [routerLink]="['/register']"
-          class="text-[#0A84C2] font-medium hover:underline"
-          >Aun no tengo una cuenta? Registrarme</a
-        >
+          <small>La contraseña es requerida.</small>
+        </div>
       </div>
       <button
+        pbutton=""
+        pripple=""
+        label="Sign In"
+        icon="pi pi-user"
         type="submit"
-        class="focus:outline-none text-white bg-[#009688] hover:bg-[#058075] focus:ring-4 focus:ring-[#90ffe9] font-medium rounded-lg text-sm px-5 py-2.5"
-        (click)="onSubmit()"
+        class="p-element p-ripple w-full p-3 p-button p-component"
       >
-        Iniciar sesión
+        <span
+          class="p-button-icon p-button-icon-left pi pi-user"
+          aria-hidden="true"
+        ></span
+        ><span class="p-button-label">Iniciar sesión</span
+        ><span class="p-ink"></span>
       </button>
     </form>
   </div>
-  <div class="h-screen bg-[#F5F6F5] hidden lg:block">
-    <div class="flex justify-center items-center mx-auto h-full">
-      <img
-        src="../../../assets/yaktta_imgs/portada.jpg"
-        alt="image"
-        class="w-[300px] lg:w-[500px]"
-      />
-    </div>
-  </div>
+  <div
+    class="hidden md:block w-6 bg-no-repeat bg-cover"
+    style="background-image: url('assets/yaktta_imgs/portada.jpg')"
+  ></div>
 </div>

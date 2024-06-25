@@ -46,7 +46,7 @@ export class ProductStateServiceService {
     );
   }
 
-  deleteProduct(id: number): Observable<Object> {
+  deleteProduct(id: number): Observable<String> {
     return this.productService.deleteProduct(id).pipe(
       tap(() => {
         const currentProducts = this.productsSubject.getValue();

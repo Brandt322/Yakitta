@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LoaderComponent } from './global/loader/loader.component';
 import { LoaderService } from './global/loader/loader.service';
+import { SharedModule } from '../shared/shared.module';
 
 
 
@@ -10,7 +11,8 @@ import { LoaderService } from './global/loader/loader.service';
     LoaderComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    SharedModule
   ],
   exports: [LoaderComponent],
   providers: [LoaderService]

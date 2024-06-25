@@ -7,6 +7,7 @@ export interface LoginResponse {
   userPrincipal: UserPrincipal;
   bearer: string;
   token: string;
+  authorities: string[];
 }
 
 export interface UserPrincipal {
