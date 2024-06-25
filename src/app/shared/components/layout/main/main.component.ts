@@ -1,7 +1,7 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { PrimeNGConfig } from 'primeng/api';
+import { MessageService, PrimeNGConfig } from 'primeng/api';
 import { AuthenticationService } from 'src/app/auth/services/authentication.service';
 import { UserPrincipal } from 'src/app/shared/models/interfaces/login.interface';
 import { SharedProductCart } from '../../services/shared-product-cart.service';
@@ -44,6 +44,7 @@ export class MainComponent implements OnInit {
     private router: Router,
     private authService: AuthenticationService,
     private sharedProductCartService: SharedProductCart,
+    private messageService: MessageService
   ) { }
 
   ngOnInit(): void {
@@ -65,7 +66,19 @@ export class MainComponent implements OnInit {
   }
 
   onQuantityInput(event: any, productId: number) {
-    this.tempQuantities[productId] = event.value;
+    let inputQuantity = event.value;
+    const product = this.products.find(p => p.id === productId);
+    if (product) {
+      if (inputQuantity > product.stock) {
+        // Si la cantidad ingresada es mayor que el stock, ajusta al stock
+        inputQuantity = product.stock;
+        product.quantity = product.stock; // Asegura que la UI se actualice con el valor correcto
+      }
+      if (inputQuantity < 1) {
+        inputQuantity = 1;
+      }
+      this.tempQuantities[productId] = inputQuantity;
+    }
   }
 
   updateQuantityOnBlur(productId: number) {
@@ -101,6 +114,23 @@ export class MainComponent implements OnInit {
       event.stopPropagation();
     }
     this.sidebarVisible = !this.sidebarVisible;
+  }
+
+  purchaseProducts() {
+    this.sharedProductCartService.validateStockBeforePurchase().subscribe(({ isStockAvailable, outOfStockProducts, insufficientStockProducts }) => {
+      if (isStockAvailable) {
+        console.log('Compra realizada con éxito');
+        this.messageService.add({ severity: 'success', summary: 'Exito!', detail: 'Compra realizada con éxito' });
+      } else {
+        // Construir mensajes específicos basados en el estado del stock de cada producto
+        const outOfStockMessages = outOfStockProducts.map(productName => `${productName} ya no tiene stock, favor de actualizar la pagina.`);
+        const insufficientStockMessages = insufficientStockProducts.map((productName: string) => `Stock insuficiente para ${productName}.`);
+        const messages = [...outOfStockMessages, ...insufficientStockMessages];
+
+        const detailedMessage = messages.join(' ');
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: detailedMessage });
+      }
+    });
   }
 
   @HostListener('document:click', ['$event'])

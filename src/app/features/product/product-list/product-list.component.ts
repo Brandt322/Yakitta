@@ -35,11 +35,15 @@ export class ProductListComponent implements OnInit {
           return throwError(() => error);
         })
       ).subscribe((products: ProductResponse[]) => {
-        this.products = products;
+        this.products = products.filter(product => product.stock >= 1);
       });
   }
 
   addProductToCart(product: Product) {
     this.sharedProductCartService.addProduct(product);
+  }
+
+  isProductInCart(productId: number): boolean {
+    return this.sharedProductCartService.isProductInCart(productId);
   }
 }
