@@ -16,6 +16,7 @@
       <th>Stock</th>
       <th>Precio</th>
       <th>Descuento</th>
+      <th>Estado</th>
       <th>Tipo de producto</th>
       <th>Marca</th>
       <th>Acciones</th>
@@ -26,7 +27,7 @@
       <td>
         <p-image
           src="{{ product.image }}"
-          alt="producto img"
+          alt="{{ product.name }}"
           width="100"
           styleClass="border-round-xl"
           [preview]="true"
@@ -35,8 +36,14 @@
       <td>{{ product.name }}</td>
       <td>{{ product.description }}</td>
       <td>{{ product.stock }}</td>
-      <td>{{ product.price }}</td>
+      <td>{{ product.price | currency : "S/" }}</td>
       <td>{{ product.discount }}</td>
+      <td>
+        <p-tag
+          [value]="product.state === true ? 'En stock' : 'Sin stock'"
+          [severity]="getSeverity(product.state)"
+        ></p-tag>
+      </td>
       <td>{{ product.product_type }}</td>
       <td>{{ product.id_brands.brandName }}</td>
       <td>
@@ -140,7 +147,13 @@
       </div>
     </div>
     <div class="field col-12 md:col-6 mb-2">
-      <label>Stock</label>
+      <label>
+        Stock
+        <i
+          class="pi pi-info-circle text-red-500"
+          pTooltip="El stock determina el estado de tu producto"
+        ></i>
+      </label>
       <input
         pInputText
         type="text"
@@ -392,7 +405,13 @@
       </div>
     </div>
     <div class="field col-12 md:col-6 mb-2">
-      <label>Stock</label>
+      <label>
+        Stock
+        <i
+          class="pi pi-info-circle text-red-500"
+          pTooltip="El stock determina el estado de tu producto"
+        ></i>
+      </label>
       <input
         pInputText
         type="text"
@@ -530,15 +549,15 @@
     </div>
     <div class="field col-12 mb-2">
       <div class="grid formgrid">
-        <label class="col-12">Imagen</label>
-        <div class="col-12 flex align-items-center">
+        <label class="col-12">Imagen previa</label>
+        <div class="col-12 flex align-items-center justify-content-between">
           <div class="md:col-2 flex">
-            <p-avatar
-              [image]="currentImagePreview"
-              shape="circle"
-              styleClass="mr-2"
-              size="xlarge"
-            ></p-avatar>
+            <p-image
+              src="{{ currentImagePreview }}"
+              width="90"
+              styleClass="border-round-xl"
+              [preview]="true"
+            ></p-image>
           </div>
           <div class="md:col-10 flex-1">
             <input

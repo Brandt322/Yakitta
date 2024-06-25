@@ -43,6 +43,7 @@ export interface ProductResponse {
   price: number;
   stock: number;
   discount: number;
+  state: boolean;
   image: string;
   product_type: string;
   id_brands: Brand;

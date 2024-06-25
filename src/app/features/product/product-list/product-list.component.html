@@ -21,7 +21,7 @@
           {{ product.description }}
         </span>
         <span class="text-2xl text-800 block mb-3 font-semibold">
-          S./ {{ product.price }}
+          {{ product.price | currency : "S/" }}
         </span>
       </div>
       <div class="flex pt-1 justify-content-center align-items-center">
@@ -31,6 +31,7 @@
           label="Buy Now"
           class="p-element p-ripple p-button-text p-button p-component"
           (click)="addProductToCart(product)"
+          [disabled]="isProductInCart(product.id)"
         >
           <span
             class="p-button-icon pi pi-shopping-cart mr-1"

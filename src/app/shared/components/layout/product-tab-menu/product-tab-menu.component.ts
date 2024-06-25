@@ -27,6 +27,10 @@ import { BrandResponse } from 'src/app/shared/models/interfaces/brand.interface'
       :host ::ng-deep .p-dialog-content::-webkit-scrollbar-thumb:hover {
         background: #88dd88;
       }
+      :host ::ng-deep .p-image-preview {
+        max-width: 50vw;
+        max-height: 50vh;
+      }
     `
   ],
   providers: [ConfirmationService]
@@ -204,8 +208,6 @@ export class ProductTabMenuComponent implements OnInit {
     // Si no se seleccionó una nueva imagen, envía el formulario con la imagen actual.
     if (!this.imageFile) {
       const formValues = this.editProductForm.value;
-      // Asegúrate de que la imagen actual esté correctamente asignada a formValues.image
-      // Esto depende de cómo estés manejando la imagen actual en tu formulario.
       formValues.image = this.currentImagePreview;
       formValues.id_brands = { id: formValues.id_brands };
 
@@ -275,6 +277,14 @@ export class ProductTabMenuComponent implements OnInit {
     });
   }
 
+  getSeverity(status: boolean) {
+    switch (status) {
+      case true:
+        return 'success';
+      case false:
+        return 'danger';
+    }
+  }
 
   showDialog() {
     this.visibleCreateModal = true;
