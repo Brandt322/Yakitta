@@ -14,6 +14,7 @@ import { LoginModule } from './auth/login.module';
 import { TokenInterceptor } from './core/interceptors/token.interceptor';
 import { ServerErrorsInterceptor } from './core/interceptors/server-error.interceptor';
 import { MessageService } from 'primeng/api';
+import { NgxStripeModule } from 'ngx-stripe';
 
 @NgModule({
   declarations: [AppComponent],
@@ -27,7 +28,8 @@ import { MessageService } from 'primeng/api';
     SharedModule,
     FeaturesModule,
     CoreModule,
-    LoginModule
+    LoginModule,
+    NgxStripeModule.forRoot('pk_test_51PVgUUGisRB4bWWu0bbQFXVfdcmK8JBTzDhwMstfZYNgAnpCHQwjyaA39P5UOhreTZbopmcqIJWmFxZGu0AhDjFE00PlfXo6Kt'),
   ],
   providers: [
     {

@@ -1,11 +1,12 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { MessageService, PrimeNGConfig } from 'primeng/api';
+import { ConfirmationService, ConfirmEventType, MessageService, PrimeNGConfig } from 'primeng/api';
 import { AuthenticationService } from 'src/app/auth/services/authentication.service';
 import { UserPrincipal } from 'src/app/shared/models/interfaces/login.interface';
 import { SharedProductCart } from '../../services/shared-product-cart.service';
-import { Product, ProductCart } from 'src/app/shared/models/interfaces/product.interface';
+import { ProductCart } from 'src/app/shared/models/interfaces/product.interface';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-main',
@@ -44,7 +45,7 @@ export class MainComponent implements OnInit {
     private router: Router,
     private authService: AuthenticationService,
     private sharedProductCartService: SharedProductCart,
-    private messageService: MessageService
+    private messageService: MessageService,
   ) { }
 
   ngOnInit(): void {
@@ -119,8 +120,12 @@ export class MainComponent implements OnInit {
   purchaseProducts() {
     this.sharedProductCartService.validateStockBeforePurchase().subscribe(({ isStockAvailable, outOfStockProducts, insufficientStockProducts }) => {
       if (isStockAvailable) {
-        console.log('Compra realizada con éxito');
-        this.messageService.add({ severity: 'success', summary: 'Exito!', detail: 'Compra realizada con éxito' });
+        // console.log('Compra realizada con éxito');
+        this.messageService.add({ severity: 'info', summary: 'Proceso de Pago', detail: 'Procesando tu compra, por favor ingresa tus datos.' });
+        this.sharedProductCartService.mycart$.pipe(take(1)).subscribe(products => {
+          // Navegar al componente de pago y pasar los productos como estado
+          this.router.navigate(['/payment-process'], { state: { products: this.products } });
+        });
       } else {
         // Construir mensajes específicos basados en el estado del stock de cada producto
         const outOfStockMessages = outOfStockProducts.map(productName => `${productName} ya no tiene stock, favor de actualizar la pagina.`);

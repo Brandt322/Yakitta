@@ -26,6 +26,7 @@ import { BadgeModule } from 'primeng/badge';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
+import { DataViewModule } from 'primeng/dataview';
 
 @NgModule({
   exports: [
@@ -55,7 +56,8 @@ import { TooltipModule } from 'primeng/tooltip';
     BadgeModule,
     InputNumberModule,
     TagModule,
-    TooltipModule
+    TooltipModule,
+    DataViewModule
   ]
 })
 export class PrimeNgModule { }
