@@ -30,7 +30,7 @@ import { PaymentModalComponent } from './components/layout/payment-modal/payment
     HeaderComponent,
     MainComponent,
     PaymentModalComponent,
-    PrimeNgModule
+    PrimeNgModule,
   ]
 })
 export class SharedModule { }

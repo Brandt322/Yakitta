@@ -1,102 +1,97 @@
-<section class="text-gray-600 body-font overflow-hidden">
-  <div class="container px-5 py-24 mx-auto">
-    <div class="-my-8 divide-y-2 divide-gray-100">
-      <div class="py-8 flex flex-wrap md:flex-nowrap">
-        <div class="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
-          <span class="font-semibold title-font text-gray-700">CATEGORY</span>
-          <span class="mt-1 text-gray-500 text-sm">12 Jun 2019</span>
-        </div>
-        <div class="md:flex-grow">
-          <h2 class="text-2xl font-medium text-gray-900 title-font mb-2">
-            Bitters hashtag waistcoat fashion axe chia unicorn
-          </h2>
-          <p class="leading-relaxed">
-            Glossier echo park pug, church-key sartorial biodiesel vexillologist
-            pop-up snackwave ramps cornhole. Marfa 3 wolf moon party messenger
-            bag selfies, poke vaporware kombucha lumbersexual pork belly
-            polaroid hoodie portland craft beer.
-          </p>
-          <a class="text-red-500 inline-flex items-center mt-4"
-            >Learn More
-            <svg
-              class="w-4 h-4 ml-2"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="2"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M5 12h14"></path>
-              <path d="M12 5l7 7-7 7"></path>
-            </svg>
-          </a>
-        </div>
+<div class="card">
+  <p-table
+    #dt
+    [columns]="cols"
+    [value]="orders"
+    [exportHeader]="'customExportHeader'"
+    [tableStyle]="{ 'min-width': '50rem' }"
+  >
+    <ng-template pTemplate="caption">
+      <div class="flex">
+        <button
+          type="button"
+          pButton
+          pRipple
+          icon="pi pi-file-pdf"
+          (click)="exportPdf()"
+          class="p-button-warning mr-2"
+          pTooltip="PDF"
+          tooltipPosition="bottom"
+        ></button>
       </div>
-      <div class="py-8 flex flex-wrap md:flex-nowrap">
-        <div class="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
-          <span class="font-semibold title-font text-gray-700">CATEGORY</span>
-          <span class="mt-1 text-gray-500 text-sm">12 Jun 2019</span>
-        </div>
-        <div class="md:flex-grow">
-          <h2 class="text-2xl font-medium text-gray-900 title-font mb-2">
-            Meditation bushwick direct trade taxidermy shaman
-          </h2>
-          <p class="leading-relaxed">
-            Glossier echo park pug, church-key sartorial biodiesel vexillologist
-            pop-up snackwave ramps cornhole. Marfa 3 wolf moon party messenger
-            bag selfies, poke vaporware kombucha lumbersexual pork belly
-            polaroid hoodie portland craft beer.
-          </p>
-          <a class="text-red-500 inline-flex items-center mt-4"
-            >Learn More
-            <svg
-              class="w-4 h-4 ml-2"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="2"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M5 12h14"></path>
-              <path d="M12 5l7 7-7 7"></path>
-            </svg>
-          </a>
-        </div>
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th *ngFor="let col of columns">
+          {{ col.header }}
+        </th>
+        <th class="text-center">Actions</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+      <tr [pSelectableRow]="rowData">
+        <td *ngFor="let col of columns">
+          {{ rowData[col.field] }}
+        </td>
+        <td>
+          <button
+            pButton
+            pRipple
+            label="Detalles"
+            icon="pi pi-eye"
+            class="p-button-text"
+            (click)="showDialog(rowData.idOrder)"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="footer"> </ng-template>
+  </p-table>
+</div>
+<p-dialog
+  header="Detalles de orden"
+  [(visible)]="visible"
+  [modal]="true"
+  [style]="{ width: '60vw' }"
+  [breakpoints]="{ '960px': '75vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p-table [value]="selectedOrder" [tableStyle]="{ 'min-width': '60rem' }">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Nombre</th>
+        <th>Imagen</th>
+        <th>Precio</th>
+        <th>Cantidad</th>
+        <th>Categoria</th>
+        <th>Marca</th>
+        <th>Descuento</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-product>
+      <tr>
+        <td>{{ product.name }}</td>
+        <td>
+          <img
+            [src]="product.image"
+            [alt]="product.name"
+            width="100"
+            class="shadow-4"
+          />
+        </td>
+        <td>{{ product.price | currency : "S/" }}</td>
+        <td>{{ product.quantity }}</td>
+        <td>{{ product.product_type }}</td>
+        <td>{{ product.id_brands.brandName }}</td>
+        <td>{{ product.discount }}</td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="flex align-items-center justify-content-between">
+        En total hay {{ selectedOrder ? selectedOrder.length : 0 }} productos
+        comprados.
       </div>
-      <div class="py-8 flex flex-wrap md:flex-nowrap">
-        <div class="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
-          <span class="font-semibold title-font text-gray-700">CATEGORY</span>
-          <span class="text-sm text-gray-500">12 Jun 2019</span>
-        </div>
-        <div class="md:flex-grow">
-          <h2 class="text-2xl font-medium text-gray-900 title-font mb-2">
-            Woke master cleanse drinking vinegar salvia
-          </h2>
-          <p class="leading-relaxed">
-            Glossier echo park pug, church-key sartorial biodiesel vexillologist
-            pop-up snackwave ramps cornhole. Marfa 3 wolf moon party messenger
-            bag selfies, poke vaporware kombucha lumbersexual pork belly
-            polaroid hoodie portland craft beer.
-          </p>
-          <a class="text-red-500 inline-flex items-center mt-4"
-            >Learn More
-            <svg
-              class="w-4 h-4 ml-2"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="2"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M5 12h14"></path>
-              <path d="M12 5l7 7-7 7"></path>
-            </svg>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+    </ng-template>
+  </p-table>
+</p-dialog>
