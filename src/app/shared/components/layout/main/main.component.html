@@ -181,8 +181,7 @@
             <p-button
               label="Procesar compra"
               styleClass="w-full"
-              type="button"
-              [raised]="true"
+              [disabled]="products.length === 0"
               (onClick)="purchaseProducts()"
             ></p-button>
           </div>

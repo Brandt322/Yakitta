@@ -10,6 +10,7 @@ import { SingUpComponent } from './auth/components/sing-up/sing-up.component';
 import { ProductTabMenuComponent } from './shared/components/layout/product-tab-menu/product-tab-menu.component';
 import { BrandTabMenuComponent } from './shared/components/layout/brand-tab-menu/brand-tab-menu.component';
 import { AdminGuard } from './core/guards/admin-guard.guard';
+import { PaymentModalComponent } from './shared/components/layout/payment-modal/payment-modal.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -24,9 +25,10 @@ const routes: Routes = [
           { path: 'products', component: ProductTabMenuComponent },
           { path: 'brands', component: BrandTabMenuComponent }
         ]
-      }
-    ]
+      },
+    ],
   },
+  { path: 'payment-process', component: PaymentModalComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({

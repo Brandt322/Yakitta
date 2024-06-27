@@ -7,6 +7,7 @@ import { PrimeNgModule } from './primeng/prime-ng.module';
 import { ProductTabMenuComponent } from './components/layout/product-tab-menu/product-tab-menu.component';
 import { BrandTabMenuComponent } from './components/layout/brand-tab-menu/brand-tab-menu.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PaymentModalComponent } from './components/layout/payment-modal/payment-modal.component';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MainComponent,
     ProductTabMenuComponent,
     BrandTabMenuComponent,
+    PaymentModalComponent
   ],
   imports: [
     CommonModule,
@@ -27,6 +29,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     /* Layout */
     HeaderComponent,
     MainComponent,
+    PaymentModalComponent,
     PrimeNgModule
   ]
 })

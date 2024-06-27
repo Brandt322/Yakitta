@@ -25,3 +25,7 @@ export const REGISTER_API_ENDPOINTS = {
   REQUEST_MAPPING: 'auth',
   REGISTER: 'register',
 }
+
+export const PAYMENT_API_ENDPOINTS = {
+  REQUEST_MAPPING: 'stripe',
+}

@@ -121,4 +121,5 @@ export class SharedProductCart {
   isProductInCart(productId: number): boolean {
     return this.productList.some(p => p.product.id === productId);
   }
+
 }

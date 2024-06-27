@@ -25,6 +25,13 @@ export interface ProductCart {
   id_brands: Brand;
 }
 
+export interface ProductToPay {
+  id: number;
+  name: string;
+  quantity: number;
+  price: number;
+}
+
 export interface ProductRequest {
   name: string;
   description: string;
