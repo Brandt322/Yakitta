@@ -1,0 +1,180 @@
+<div
+  class="flex flex-column md:flex-row h-screen overflow-y-auto overflow-x-hidden"
+>
+  <div
+    class="w-full md:w-6 flex flex-column md:flex-row md:flex-wrap align-items-center justify-content-center gap-3 py-5"
+  >
+    <p-dataView #dv [value]="products" [paginator]="true" [rows]="5">
+      <ng-template let-product pTemplate="listItem">
+        <div class="col-12">
+          <div
+            class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4"
+          >
+            <img
+              class="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round"
+              [src]="product.image"
+              [alt]="product.name"
+            />
+            <div
+              class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4"
+            >
+              <div
+                class="flex flex-column align-items-center sm:align-items-start gap-3"
+              >
+                <div class="text-2xl font-bold text-900">
+                  {{ product.name }}
+                </div>
+                <div class="flex align-items-center gap-3">
+                  <span class="flex align-items-center gap-2">
+                    <i class="pi pi-tag"></i>
+                    <span class="font-semibold">{{
+                      product.product_type
+                    }}</span>
+                  </span>
+                </div>
+              </div>
+              <div
+                class="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2"
+              >
+                <span class="text-2xl font-semibold">{{
+                  product.price | currency : "S/"
+                }}</span>
+                <span class="text-2xl font-semibold">{{
+                  "Cant. " + product.quantity
+                }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </p-dataView>
+  </div>
+  <div class="w-full md:w-1">
+    <p-divider layout="vertical" styleClass="hidden md:flex"
+      ><p-button
+        label="VOLVER"
+        (onClick)="volver()"
+        [text]="true"
+        severity="help"
+      ></p-button
+    ></p-divider>
+    <p-divider
+      layout="horizontal"
+      styleClass="flex md:hidden"
+      [align]="'center'"
+      ><p-button
+        label="VOLVER"
+        (onClick)="volver()"
+        [text]="true"
+        severity="help"
+      ></p-button
+    ></p-divider>
+  </div>
+  <div
+    class="w-full md:w-5 flex align-items-center justify-content-center py-5"
+  >
+    <form
+      novalidate
+      [formGroup]="stripeForm"
+      #f="ngForm"
+      class="grid formgrid p-fluid justify-content-center"
+    >
+      <div class="field col-8 mb-2">
+        <label class="text-700 font-semibold">Nombres</label>
+        <input
+          pInputText
+          type="text"
+          class="mb-2"
+          placeholder="Jhon Doe"
+          formControlName="name"
+        />
+        <div
+          class="p-fluid mb-2 -mt-2 fade-in"
+          *ngIf="
+            stripeForm.get('name')?.touched && stripeForm.get('name')?.errors
+          "
+        >
+          <div
+            class="p-error"
+            *ngIf="stripeForm.get('name')?.errors?.['required']"
+          >
+            <small>Debes ingresar al menos un nombre .</small>
+          </div>
+        </div>
+      </div>
+      <div class="field col-8 mb-2">
+        <label class="text-700 font-semibold">Correo electrónico</label>
+        <input
+          pInputText
+          type="text"
+          class="mb-2"
+          formControlName="email"
+          placeholder="jhondoe@gmail.com"
+        />
+        <div
+          class="p-fluid mb-3 -mt-2 fade-in"
+          *ngIf="
+            stripeForm.get('email')?.touched && stripeForm.get('email')?.errors
+          "
+        >
+          <div
+            class="p-error"
+            *ngIf="stripeForm.get('email')?.errors?.['required']"
+          >
+            <small>El correo es requerido.</small>
+          </div>
+          <div
+            class="p-error"
+            *ngIf="stripeForm.get('email')?.errors?.['email']"
+          >
+            <small>El formato de email es incorrecto.</small>
+          </div>
+        </div>
+      </div>
+      <div id="card-element" class="field col-8 mb-2"></div>
+      <div class="p-fluid mb-3 -mt-2 fade-in" *ngIf="error">
+        <div class="p-error">
+          <small>{{ error }}</small>
+        </div>
+      </div>
+      <div class="col-8 p-fluid">
+        <button
+          pbutton=""
+          pripple=""
+          label="Sign In"
+          icon="pi pi-user"
+          class="p-element p-ripple w-full p-3 p-button p-component"
+          [disabled]="!f.valid || !isStripeValid"
+          (click)="createToken()"
+        >
+          <span class="p-button-label">Comprar</span><span class="p-ink"></span>
+        </button>
+        <p-dialog
+          header="Confirmación de compra"
+          [(visible)]="visible"
+          [modal]="true"
+          [style]="{ width: '50vw' }"
+          [draggable]="false"
+          [resizable]="true"
+        >
+          <p class="m-0">Estas seguro de querer comprar estos productos?</p>
+          <ng-template pTemplate="footer">
+            <p-button
+              icon="pi pi-check"
+              (click)="cancelPurchase()"
+              label="Cancelar"
+              styleClass="p-button-text"
+            ></p-button>
+            <p-button
+              icon="pi pi-check"
+              (click)="confirmPurchase()"
+              label="Comprar"
+              styleClass="p-button-text"
+            ></p-button>
+          </ng-template>
+        </p-dialog>
+      </div>
+    </form>
+  </div>
+</div>
+<p-toast></p-toast>

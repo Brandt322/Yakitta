@@ -24,6 +24,9 @@ import { CardModule } from 'primeng/card';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { BadgeModule } from 'primeng/badge';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { TagModule } from 'primeng/tag';
+import { TooltipModule } from 'primeng/tooltip';
+import { DataViewModule } from 'primeng/dataview';
 
 @NgModule({
   exports: [
@@ -51,7 +54,10 @@ import { InputNumberModule } from 'primeng/inputnumber';
     CardModule,
     OverlayPanelModule,
     BadgeModule,
-    InputNumberModule
+    InputNumberModule,
+    TagModule,
+    TooltipModule,
+    DataViewModule
   ]
 })
 export class PrimeNgModule { }
