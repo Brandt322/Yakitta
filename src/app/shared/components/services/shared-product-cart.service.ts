@@ -122,4 +122,10 @@ export class SharedProductCart {
     return this.productList.some(p => p.product.id === productId);
   }
 
+  clearCart() {
+    this.productList = [];
+    this.myCart.next(this.productList);
+    localStorage.removeItem('myCart');
+  }
+
 }

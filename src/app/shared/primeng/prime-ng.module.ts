@@ -27,6 +27,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
 import { DataViewModule } from 'primeng/dataview';
+import { DynamicDialogModule } from 'primeng/dynamicdialog';
 
 @NgModule({
   exports: [
@@ -57,7 +58,8 @@ import { DataViewModule } from 'primeng/dataview';
     InputNumberModule,
     TagModule,
     TooltipModule,
-    DataViewModule
+    DataViewModule,
+    DynamicDialogModule
   ]
 })
 export class PrimeNgModule { }
