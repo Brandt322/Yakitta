@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BrandStateServiceService } from '../../services/brand-state-service.service';
+import { BrandStateService } from '../../services/brand-state-service.service';
 import { BrandResponse } from 'src/app/shared/models/interfaces/brand.interface';
 import { catchError, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -23,7 +23,7 @@ export class BrandTabMenuComponent implements OnInit {
   editVisible: boolean = false;
 
   constructor(
-    private brandtStateService: BrandStateServiceService,
+    private brandtStateService: BrandStateService,
     private messageService: MessageService,
     private formBuilder: FormBuilder,
     private confirmationService: ConfirmationService

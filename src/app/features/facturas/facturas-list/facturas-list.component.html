@@ -31,7 +31,29 @@
     <ng-template pTemplate="body" let-rowData let-columns="columns">
       <tr [pSelectableRow]="rowData">
         <td *ngFor="let col of columns">
-          {{ rowData[col.field] }}
+          <ng-container *ngIf="col.field === 'status'; else other_fields">
+            <div class="flex align-items-center justify-content-start gap-1">
+              <p-tag
+                [value]="getStatusSeverity(rowData[col.field]).statusText"
+                [severity]="getStatusSeverity(rowData[col.field]).severity"
+              ></p-tag>
+              <button
+                *ngIf="
+                  getStatusSeverity(rowData[col.field]).statusText !==
+                    'Entregado' && userDetails.roles.includes('ADMIN')
+                "
+                pButton
+                pRipple
+                type="button"
+                icon="pi pi-pencil"
+                class="p-button-rounded p-button-text"
+                (click)="editStatus(rowData)"
+              ></button>
+            </div>
+          </ng-container>
+          <ng-template #other_fields>
+            {{ rowData[col.field] }}
+          </ng-template>
         </td>
         <td>
           <button
@@ -94,4 +116,43 @@
       </div>
     </ng-template>
   </p-table>
+</p-dialog>
+<p-dialog
+  header="Edita el estado de la orden"
+  [(visible)]="updateStatusVisible"
+  [modal]="true"
+  [style]="{ width: '40vw' }"
+  [breakpoints]="{ '960px': '75vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <form [formGroup]="updateStatusOrderForm" class="flex flex-column p-fluid">
+    <p-dropdown
+      formControlName="status"
+      [options]="statusOptions"
+      optionLabel="label"
+      optionValue="value"
+      inputId="Status"
+      styleClass=" mb-2"
+      placeholder="Selecciona un estado"
+    ></p-dropdown>
+    <div class="flex flex-1 gap-2 flex-wrap">
+      <button
+        pButton
+        type="button"
+        label="Cancelar"
+        icon="pi pi-times"
+        class="p-button-secondary w-1/2"
+        (click)="closeUpdateStatusDialog()"
+      ></button>
+      <button
+        pButton
+        type="button"
+        label="Guardar"
+        icon="pi pi-check"
+        class="p-button-primary"
+        (click)="onUpdateOrderStatus()"
+      ></button>
+    </div>
+  </form>
 </p-dialog>

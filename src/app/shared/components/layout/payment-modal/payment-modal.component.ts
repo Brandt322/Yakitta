@@ -176,6 +176,10 @@ export class PaymentModalComponent implements OnInit {
     }
   }
 
+  getTotalPrice(): number {
+    return this.products.reduce((acc, product) => acc + (product.price * product.quantity), 0);
+  }
+
   showDialog() {
     this.visible = true;
   }

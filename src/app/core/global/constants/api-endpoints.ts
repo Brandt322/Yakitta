@@ -23,6 +23,7 @@ export const ORDER_API_ENDPOINTS = {
   GET_ALL: REQUEST_MAPPING + '/orders',
   GET_BY_ID: REQUEST_MAPPING + '/orders',
   GET_ALL_BY_USER: REQUEST_MAPPING + '/orders/client',
+  UPDATE_STATUS: REQUEST_MAPPING + '/orders',
 }
 
 export const LOGIN_API_ENDPOINTS = {
