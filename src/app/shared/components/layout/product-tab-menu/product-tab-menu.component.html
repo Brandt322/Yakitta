@@ -7,14 +7,22 @@
   [tableStyle]="{ 'min-width': '50rem' }"
   currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} entradas"
   [rowsPerPageOptions]="[10, 25, 50]"
+  (sortFunction)="customSort($event)"
+  [customSort]="true"
 >
   <ng-template pTemplate="header">
     <tr>
       <th>Imagen</th>
-      <th>Nombre</th>
+      <th pSortableColumn="name">
+        Nombre <p-sortIcon field="name"></p-sortIcon>
+      </th>
       <th>Descripción</th>
-      <th>Stock</th>
-      <th>Precio</th>
+      <th pSortableColumn="stock">
+        Stock <p-sortIcon field="stock"></p-sortIcon>
+      </th>
+      <th pSortableColumn="price">
+        Precio <p-sortIcon field="price"></p-sortIcon>
+      </th>
       <th>Descuento</th>
       <th>Estado</th>
       <th>Tipo de producto</th>
@@ -229,7 +237,7 @@
           class="p-error"
           *ngIf="productForm.get('description')?.errors?.['required']"
         >
-          <small>El precio del producto es requerido.</small>
+          <small>La descripción del producto es requerido.</small>
         </div>
         <div
           class="p-error"
@@ -489,7 +497,7 @@
           class="p-error"
           *ngIf="editProductForm.get('description')?.errors?.['required']"
         >
-          <small>El precio del producto es requerido.</small>
+          <small>La descripción del producto es requerido.</small>
         </div>
         <div
           class="p-error"

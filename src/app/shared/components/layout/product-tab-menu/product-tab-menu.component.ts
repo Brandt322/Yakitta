@@ -3,11 +3,12 @@ import { ProductStateServiceService } from '../../services/product-state-service
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { catchError, throwError } from 'rxjs';
 import { ProductResponse } from 'src/app/shared/models/interfaces/product.interface';
-import { ConfirmationService, ConfirmEventType, Message, MessageService } from 'primeng/api';
+import { ConfirmationService, ConfirmEventType, Message, MessageService, SortEvent } from 'primeng/api';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CustomValidators } from '../../utils/Validations/CustomValidators';
 import { BrandService } from 'src/app/services/brand/brand.service';
 import { BrandResponse } from 'src/app/shared/models/interfaces/brand.interface';
+import { UserPrincipal } from '../../../models/interfaces/login.interface';
 
 @Component({
   selector: 'app-product-tab-menu',
@@ -39,6 +40,7 @@ export class ProductTabMenuComponent implements OnInit {
   currentProductId!: number;
   products: ProductResponse[] = [];
   brands: BrandResponse[] = [];
+  userDetails!: UserPrincipal;
   productForm!: FormGroup;
   editProductForm!: FormGroup;
   visibleCreateModal: boolean = false;
@@ -64,6 +66,10 @@ export class ProductTabMenuComponent implements OnInit {
     this.productInitForm();
     this.editProductInitForm();
     this.messages = [];
+    if (sessionStorage.getItem('user_data')) {
+      const userData = sessionStorage.getItem('user_data') ? JSON.parse(sessionStorage.getItem('user_data') || '{}') : {};
+      this.userDetails = userData.userPrincipal;
+    }
   }
 
   getProductsState() {
@@ -274,6 +280,22 @@ export class ProductTabMenuComponent implements OnInit {
             break;
         }
       }
+    });
+  }
+
+  customSort(event: SortEvent) {
+    event.data!.sort((data1, data2) => {
+      let value1 = data1[event.field!];
+      let value2 = data2[event.field!];
+      let result = null;
+
+      if (value1 == null && value2 != null) result = -1;
+      else if (value1 != null && value2 == null) result = 1;
+      else if (value1 == null && value2 == null) result = 0;
+      else if (typeof value1 === 'string' && typeof value2 === 'string') result = value1.localeCompare(value2);
+      else result = value1 < value2 ? -1 : value1 > value2 ? 1 : 0;
+
+      return event.order! * result;
     });
   }
 

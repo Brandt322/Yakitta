@@ -48,6 +48,9 @@
         </div>
       </ng-template>
     </p-dataView>
+    <div class="text-xl font-semibold">
+      Total de la compra: {{ getTotalPrice() | currency : "S/" }}
+    </div>
   </div>
   <div class="w-full md:w-1">
     <p-divider layout="vertical" styleClass="hidden md:flex"

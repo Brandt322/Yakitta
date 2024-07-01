@@ -158,6 +158,7 @@ export class PaymentModalComponent implements OnInit {
         (data: any) => {
           this.messageService.add({ severity: 'success', summary: 'Pago exitoso', detail: 'Gracias por tu compra!' });
           this.closeDialog();
+          this.sharedProductCartService.clearCart();
           this.router.navigate(['/main/facturas']);
         }
       );
@@ -173,6 +174,10 @@ export class PaymentModalComponent implements OnInit {
         }
       );
     }
+  }
+
+  getTotalPrice(): number {
+    return this.products.reduce((acc, product) => acc + (product.price * product.quantity), 0);
   }
 
   showDialog() {

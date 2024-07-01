@@ -1,5 +1,8 @@
 export const REQUEST_MAPPING = 'api/v1';
 
+export const USER_API_ENDPOINTS = {
+  GET_BY_ID: REQUEST_MAPPING + '/users',
+};
 
 export const PRODUCT_API_ENDPOINTS = {
   GET_ALL: REQUEST_MAPPING + '/product/products',
@@ -15,6 +18,13 @@ export const BRAND_API_ENDPOINTS = {
   UPDATE: REQUEST_MAPPING + '/brands/edit',
   DELETE: REQUEST_MAPPING + '/brands',
 };
+
+export const ORDER_API_ENDPOINTS = {
+  GET_ALL: REQUEST_MAPPING + '/orders',
+  GET_BY_ID: REQUEST_MAPPING + '/orders',
+  GET_ALL_BY_USER: REQUEST_MAPPING + '/orders/client',
+  UPDATE_STATUS: REQUEST_MAPPING + '/orders',
+}
 
 export const LOGIN_API_ENDPOINTS = {
   REQUEST_MAPPING: 'auth',
