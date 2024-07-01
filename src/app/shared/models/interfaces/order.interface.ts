@@ -6,6 +6,7 @@ export interface OrderResponse {
   orderDate: Date;
   description: string;
   amount: number;
+  status: boolean;
   orderDetails: OrderDetail[];
 }
 
@@ -15,4 +16,9 @@ export interface OrderDetail {
   product: Product;
   quantity: number;
   totalPrice: number;
+}
+
+export interface UpdateOrderStatus {
+  id: number;
+  status: boolean;
 }

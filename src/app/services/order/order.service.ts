@@ -25,4 +25,8 @@ export class OrderService {
   getOrderByUser(clientId: number): Observable<OrderResponse[]> {
     return this.http.get<OrderResponse[]>(`${this.uri}/${ORDER_API_ENDPOINTS.GET_ALL_BY_USER}/${clientId}`);
   }
+
+  updateOrderStatus(orderId: number, status: boolean): Observable<void> {
+    return this.http.put<void>(`${this.uri}/${ORDER_API_ENDPOINTS.UPDATE_STATUS}/order/${orderId}/status`, status);
+  }
 }

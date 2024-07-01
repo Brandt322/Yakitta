@@ -6,7 +6,7 @@ import { BrandService } from 'src/app/services/brand/brand.service';
 @Injectable({
   providedIn: 'root'
 })
-export class BrandStateServiceService {
+export class BrandStateService {
 
   private brandsSubject: BehaviorSubject<BrandResponse[]> = new BehaviorSubject<BrandResponse[]>([]);
   brands$: Observable<BrandResponse[]> = this.brandsSubject.asObservable();
